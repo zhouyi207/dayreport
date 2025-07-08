@@ -1,84 +1,141 @@
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Chart,
+  type ChartConfiguration,
+  Tooltip,
+  type TooltipPositionerFunction,
+  type ChartType,
+  type ActiveElement,
+  type Point,
+} from "chart.js/auto";
+import * as React from "react";
+declare module "chart.js" {
+  interface TooltipPositionerMap {
+    myCustomPositioner: TooltipPositionerFunction<ChartType>;
+  }
+}
+import { cn } from "@/lib/utils";
 
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
-import { ScatterChart, Scatter, XAxis, YAxis, ZAxis } from "recharts";
+interface ChartBubbleProps extends React.ComponentProps<"div"> {
+  labels?: ChartConfiguration["data"]["labels"];
+  datasets?: ChartConfiguration["data"]["datasets"];
+}
 
-const data01 = [
-  { hour: "12a", index: 1, value: 170 },
-  { hour: "1a", index: 1, value: 180 },
-  { hour: "2a", index: 1, value: 150 },
-  { hour: "3a", index: 1, value: 120 },
-  { hour: "4a", index: 1, value: 200 },
-  { hour: "5a", index: 1, value: 300 },
-  { hour: "6a", index: 1, value: 400 },
-  { hour: "7a", index: 1, value: 200 },
-  { hour: "8a", index: 1, value: 100 },
-  { hour: "9a", index: 1, value: 150 },
-  { hour: "10a", index: 1, value: 160 },
-  { hour: "11a", index: 1, value: 170 },
-  { hour: "12a", index: 1, value: 180 },
-  { hour: "1p", index: 1, value: 144 },
-  { hour: "2p", index: 1, value: 166 },
-  { hour: "3p", index: 1, value: 145 },
-  { hour: "4p", index: 1, value: 150 },
-  { hour: "5p", index: 1, value: 170 },
-  { hour: "6p", index: 1, value: 180 },
-  { hour: "7p", index: 1, value: 165 },
-  { hour: "8p", index: 1, value: 130 },
-  { hour: "9p", index: 1, value: 140 },
-  { hour: "10p", index: 1, value: 170 },
-  { hour: "11p", index: 1, value: 180 },
-];
+export function ChartBubble({
+  labels,
+  datasets,
+  className,
+  ...props
+}: ChartBubbleProps) {
+  const chartRef = React.useRef<HTMLCanvasElement>(null);
+  const chartInstance = React.useRef<Chart>(null);
+  const [isCanvasReady, setIsCanvasReady] = React.useState(false);
 
-export function ChartBubble() {
-  const chartConfig: ChartConfig = {};
+  // 监听 Canvas 元素挂载状态
+  React.useEffect(() => {
+    setIsCanvasReady(!!chartRef.current);
+  }, [chartRef.current]);
+
+  Tooltip.positioners.myCustomPositioner = function (
+    _elements: readonly ActiveElement[],
+    eventPosition: Point
+  ) {
+    return {
+      x: eventPosition.x,
+      y: eventPosition.y,
+    };
+  };
+
+  // 使用 useMemo 创建渐变色，确保 Canvas 已挂载
+  const lineGradient = React.useMemo(() => {
+    if (!isCanvasReady || !chartRef.current) return null;
+
+    const ctx = chartRef.current.getContext("2d");
+    if (!ctx) return null;
+
+    // 创建线性渐变（从顶部到底部）
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, "rgba(255, 99, 132, 0.8)"); // 起始颜色（不透明）
+    gradient.addColorStop(1, "rgba(255, 99, 132, 0.1)"); // 结束颜色（接近透明）
+
+    return gradient;
+  }, [isCanvasReady]);
+
+  // 为填充区域创建更透明的渐变
+  const fillGradient = React.useMemo(() => {
+    if (!isCanvasReady || !chartRef.current) return null;
+
+    const ctx = chartRef.current.getContext("2d");
+    if (!ctx) return null;
+
+    // 创建填充区域的渐变（更透明）
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, "rgba(255, 99, 132, 0.3)"); // 起始颜色（半透明）
+    gradient.addColorStop(1, "rgba(255, 99, 132, 0.05)"); // 结束颜色（几乎透明）
+
+    return gradient;
+  }, [isCanvasReady]);
+
+  // 使用 useMemo 创建图表配置，依赖于渐变的可用性
+  const chartConfig = React.useMemo(() => {
+    if (!lineGradient || !fillGradient) return null;
+
+    return {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: datasets?.map((item) => {
+          return {
+            ...item,
+            backgroundColor: item.type === "bar" ? lineGradient : fillGradient,
+          };
+        }),
+      },
+      options: {
+        interaction: {
+          intersect: false,
+          mode: "index",
+        },
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            position: "myCustomPositioner",
+          },
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    } as ChartConfiguration;
+  }, [lineGradient, fillGradient]);
+
+  // 管理图表生命周期
+  React.useEffect(() => {
+    if (!chartRef.current || !chartConfig) return;
+
+    // 销毁旧图表
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    // 创建新图表
+    chartInstance.current = new Chart(chartRef.current, chartConfig);
+
+    // 清理函数
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [chartConfig]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>气泡图</CardTitle>
-        <CardDescription>这是一个气泡图表示。</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[500px] w-full"
-        >
-          {/* Add your chart implementation here */}
-          <ScatterChart
-            margin={{
-              top: 10,
-              right: 10,
-              bottom: 10,
-              left: 10,
-            }}
-            data={data01}
-          >
-            <XAxis dataKey="value" type="number" />
-            <YAxis dataKey="value" type="number" />
-            <ZAxis
-              type="number"
-              dataKey="value"
-              domain={[0, 0.001]}
-              range={[16, 225]}
-            />
-            <Scatter fill="#8884d8"/>
-          </ScatterChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <div className={cn("h-80", className)} {...props}>
+      <canvas ref={chartRef} />
+    </div>
   );
 }
