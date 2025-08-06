@@ -26,6 +26,10 @@ const router = createBrowserRouter([
     Component: Dashboard,
     handle: { breadcrumb: "主页" },
     children: [
+      {
+        index: true,
+        Component: Test, // 主页默认展示的组件
+      },
       { path: "test", Component: Test, handle: { breadcrumb: "测试" } },
       {
         path: "marginal-profit",
