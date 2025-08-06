@@ -104,15 +104,19 @@ export function Select({
   }, [dateStates, checkStates]);
 
   return (
-    <div className="in-last:border-b-2">
-      {/* date */}
+    <div className="rounded-xl border bg-background shadow-sm divide-y">
+      {/* 日期选择组 */}
       {selectParams.date?.map((item, idx) => (
-        <div key={idx} className="flex gap-20 items-center p-3.5 border-t-2">
-          <div className="w-18">{item.title}</div>
-          <div className="flex gap-15">
+        <div key={idx} className="flex gap-6 p-5 items-center">
+          {/* 标题栏 */}
+          <div className="w-24 text-sm font-semibold text-muted-foreground pt-1">
+            {item.title}
+          </div>
+          {/* 内容栏 */}
+          <div className="flex flex-wrap gap-x-6 gap-y-4 flex-1">
             {item.options.map((subitem, subidx) => (
-              <div className="flex gap-1" key={subidx}>
-                <Label htmlFor={`date-${idx}`} className="px-1">
+              <div className="flex items-center gap-2" key={subidx}>
+                <Label htmlFor={`date-${idx}-${subidx}`} className="text-sm">
                   {subitem}
                 </Label>
                 <Popover
@@ -124,15 +128,15 @@ export function Select({
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      id={`date-${idx}`}
-                      className="w-48 justify-between font-normal"
+                      id={`date-${idx}-${subidx}`}
+                      className="w-40 justify-between font-normal text-sm"
                     >
                       {dateStates[item.title][subitem]?.selected
                         ? dateStates[item.title][
                             subitem
                           ]?.selected?.toLocaleDateString()
-                        : "Select date"}
-                      <ChevronDownIcon />
+                        : "选择日期"}
+                      <ChevronDownIcon className="ml-2 size-4" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent
@@ -158,24 +162,31 @@ export function Select({
         </div>
       ))}
 
-      {/* checkbox */}
+      {/* Checkbox 选择组 */}
       {selectParams.check.map((item, idx) => (
-        <div key={idx} className="flex gap-20 items-center p-3.5 border-t-2">
-          <div className="w-18 justify-center">{item.title}</div>
-          <div className="flex gap-15">
+        <div key={idx} className="flex gap-6 p-5 items-center">
+          {/* 标题栏 */}
+          <div className="w-24 text-sm font-semibold text-muted-foreground pt-1">
+            {item.title}
+          </div>
+          {/* 内容栏 */}
+          <div className="flex flex-wrap gap-x-12 flex-1">
             {item.options.map((subitem, subidx) => (
-              <div className="flex gap-1" key={subidx}>
-                <Label htmlFor={subitem} className="px-1">
-                  {subitem}
-                </Label>
+              <div className="flex items-center gap-2" key={subidx}>
                 <Checkbox
-                  id={subitem}
+                  id={`check-${idx}-${subidx}`}
                   checked={checkStates[item.title][subitem]}
                   onCheckedChange={(e: boolean) =>
                     handleCheckboxChange(item.title, subitem, e)
                   }
-                  className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                  className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
                 />
+                <Label
+                  htmlFor={`check-${idx}-${subidx}`}
+                  className="text-sm leading-none"
+                >
+                  {subitem}
+                </Label>
               </div>
             ))}
           </div>

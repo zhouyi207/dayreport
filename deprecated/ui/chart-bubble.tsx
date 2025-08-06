@@ -45,48 +45,35 @@ export function ChartBubble({
     };
   };
 
-  // 使用 useMemo 创建渐变色，确保 Canvas 已挂载
-  const lineGradient = React.useMemo(() => {
-    if (!isCanvasReady || !chartRef.current) return null;
+  // 为填充区域创建更透明的渐变
+  const [lineGradient, fillGradient] = React.useMemo(() => {
+    if (!isCanvasReady || !chartRef.current) return [null, null];
 
     const ctx = chartRef.current.getContext("2d");
-    if (!ctx) return null;
+    if (!ctx) return [null, null];
+
+    const width = ctx.canvas.width;
 
     // 创建线性渐变（从顶部到底部）
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, "rgba(255, 99, 132, 0.8)"); // 起始颜色（不透明）
-    gradient.addColorStop(1, "rgba(255, 99, 132, 0.1)"); // 结束颜色（接近透明）
+    const gradient_fill = ctx.createLinearGradient(0, -width * 0.5, 0, width);
+    gradient_fill.addColorStop(0.05, "rgba(190,242,100,0.8)");
+    gradient_fill.addColorStop(0.95, "rgba(190,242,100,0.1)");
 
-    return gradient;
-  }, [isCanvasReady]);
-
-  // 为填充区域创建更透明的渐变
-  const fillGradient = React.useMemo(() => {
-    if (!isCanvasReady || !chartRef.current) return null;
-
-    const ctx = chartRef.current.getContext("2d");
-    if (!ctx) return null;
-
-    // 创建填充区域的渐变（更透明）
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, "rgba(255, 99, 132, 0.3)"); // 起始颜色（半透明）
-    gradient.addColorStop(1, "rgba(255, 99, 132, 0.05)"); // 结束颜色（几乎透明）
-
-    return gradient;
+    return [null, gradient_fill];
   }, [isCanvasReady]);
 
   // 使用 useMemo 创建图表配置，依赖于渐变的可用性
   const chartConfig = React.useMemo(() => {
-    if (!lineGradient || !fillGradient) return null;
+    if (!fillGradient) return null;
 
     return {
-      type: "bar",
+      type: "line",
       data: {
         labels: labels,
         datasets: datasets?.map((item) => {
           return {
             ...item,
-            backgroundColor: item.type === "bar" ? lineGradient : fillGradient,
+            backgroundColor: fillGradient,
           };
         }),
       },
@@ -105,8 +92,33 @@ export function ChartBubble({
           },
         },
         scales: {
+          x: {
+            padding: 0,
+            grid: {
+              display: false,
+            },
+            beginAtZero: true,
+          },
           y: {
             beginAtZero: true,
+            offset: false,
+            border: {
+              display: true, // y轴轴线
+            },
+            ticks: {
+              display: true,
+              count: 4,
+            },
+            // 隐藏Y轴标题
+            title: {
+              display: false,
+            },
+            // 保留网格线（默认显示）
+            grid: {
+              display: true,
+              color: "rgba(0, 0, 0, 0.1)", // 可选：设置网格线颜色
+              drawOnChartArea: true,
+            },
           },
         },
       },

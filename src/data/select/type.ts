@@ -1,5 +1,5 @@
 interface SelectParams {
-  date: { title: string; options: string[] }[];
+  date?: { title: string; options: string[] }[];
   check: { title: string; options: string[] }[];
 }
 

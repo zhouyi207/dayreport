@@ -28,14 +28,14 @@ export const sidebarData: SidebarData = {
       items: [
         { title: "边际利润表", url: "/marginal-profit" },
         { title: "承保气泡图", url: "/underwriting-bubble-chart" },
-        { title: "承保新旧车气泡图", url: "#" },
+        { title: "承保新旧车气泡图", url: "/underwriting-trend-chart" },
       ],
     },
     {
       title: "预期边际利润可实现性分析",
       url: "#",
       items: [
-        { title: "十等分检验图", url: "#" },
+        { title: "十等分检验图", url: "/decile" },
         { title: "理赔气泡图", url: "#" },
         { title: "理赔整车统计趋势", url: "#" },
         { title: "理赔非整车统计趋势", url: "#" },
