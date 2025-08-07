@@ -1,9 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Outlet } from "react-router";
 import Threads from "@/app/background.tsx";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Auth() {
+  if (location.pathname.startsWith("/auth")) {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token_valid");
+    console.log("token 已经被清除!!");
+  }
   return (
     <div className="bg-black">
       <div style={{ width: "100%", height: "100vh", position: "fixed" }}>
@@ -31,7 +36,7 @@ export default function Auth() {
             </Card>
           </div>
         </div>
-        <Toaster/ >
+        <Toaster />
       </div>
     </div>
   );
