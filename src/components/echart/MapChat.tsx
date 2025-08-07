@@ -13,5 +13,11 @@ export function MapChart() {
     ],
   };
 
-  return <ReactECharts option={option} opts={{ renderer: "svg" }} />;
+  return (
+    <ReactECharts
+      option={option}
+      opts={{ renderer: "svg" }}
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
 }
