@@ -1,14 +1,15 @@
+import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
 import Dashboard from "./app/dashboard/page.tsx";
 import { MarginalProfit } from "./app/dashboard/marginal-profit.tsx";
 import { UnderwritingBubbleChart } from "./app/dashboard/underwriting-bubble-chart.tsx";
 import { UnderwritingTrendChart } from "./app/dashboard/underwriting-trend-chart.tsx";
 import { Decile } from "./app/dashboard/decile.tsx";
 import { Test } from "./app/test.tsx";
+import { RequireAuth } from "@/components/RequireAuth";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
@@ -17,13 +18,27 @@ import { ChangeForm } from "./app/auth/change-form.tsx";
 import { ForgetForm } from "./app/auth/forget-form.tsx";
 import { SignForm } from "./app/auth/sign-form.tsx";
 import mock from "./mock";
-import { Breadcrumb } from "./components/ui/breadcrumb.tsx";
+import { SidebarProvider } from "./components/ui/sidebar.tsx";
+import usePersistentSidebarState from "./hooks/sidebar.ts";
+
 mock.bootstrap();
+
+function AppLayout() {
+  const [open] = usePersistentSidebarState();
+
+  return (
+    <SidebarProvider defaultOpen={open}>
+      <RequireAuth>
+        <Dashboard />
+      </RequireAuth>
+    </SidebarProvider>
+  );
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Dashboard,
+    Component: AppLayout,
     handle: { breadcrumb: "主页" },
     children: [
       {
@@ -49,7 +64,7 @@ const router = createBrowserRouter([
       {
         path: "decile",
         Component: Decile,
-        handle: { Breadcrumb: "十等分检验图" },
+        handle: { breadcrumb: "十等分检验图" },
       },
     ],
   },
