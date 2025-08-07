@@ -7,8 +7,10 @@ import { MapChart } from "@/components/echart/MapChat";
 
 export function Test() {
   return (
-    <div>
-      <MapChart />
+    <div className="h-screen overflow-y-scroll">
+      <div className="h-200">
+        <MapChart />
+      </div>
       <BubbleChart />
       <EChartAreaInteractive
         chartAreaInteractiveParams={chartAreaInteractiveParams}
