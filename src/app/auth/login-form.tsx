@@ -3,47 +3,43 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { Link } from "react-router";
 import { toast } from "sonner";
+import { login } from "@/api/auth";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  let navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   // 处理输入变化
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const handleusernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setusername(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    axios
-      .post("/login", { email, password })
-      .then((response) => {
-        if (response.status == 200) {
-          const { token, user } = response.data;
-          localStorage.setItem("authToken", token);
-          localStorage.setItem("userData", JSON.stringify(user));
-          toast.success("登陆成功！");
-          navigate("/");
-        } else {
-          console.log("asdsad");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.info("Event has been created");
-      });
+
+    try {
+      const data = await login({ username, password });
+      localStorage.setItem("token", data.access);
+      toast.success("登入成功！");
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      const msg = err.response?.data?.detail || "登录失败，请检查用户名和密码";
+      toast.error(msg);
+    }
   };
 
   return (
@@ -55,14 +51,14 @@ export function LoginForm({
             <p className="text-muted-foreground text-balance">登录账号</p>
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="email">邮箱</Label>
+            <Label htmlFor="username">邮箱</Label>
             <Input
-              id="email"
+              id="username"
               type="email"
               placeholder="m@example.com"
               required
-              value={email}
-              onChange={handleEmailChange}
+              value={username}
+              onChange={handleusernameChange}
             />
           </div>
           <div className="grid gap-3">
