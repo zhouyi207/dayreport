@@ -1,15 +1,17 @@
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router";
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { RequireAuth } from "@/components/RequireAuth";
+
+// dashboard
 import Dashboard from "./app/dashboard/page.tsx";
 import { MarginalProfit } from "./app/dashboard/marginal-profit.tsx";
 import { UnderwritingBubbleChart } from "./app/dashboard/underwriting-bubble-chart.tsx";
 import { UnderwritingTrendChart } from "./app/dashboard/underwriting-trend-chart.tsx";
 import { Decile } from "./app/dashboard/decile.tsx";
+import { ClaimBubbleChart } from "./app/dashboard/claim-bubble-chart.tsx";
 import { Test } from "./app/test.tsx";
-import { RequireAuth } from "@/components/RequireAuth";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
@@ -17,6 +19,8 @@ import { LoginForm } from "./app/auth/login-form.tsx";
 import { ChangeForm } from "./app/auth/change-form.tsx";
 import { ForgetForm } from "./app/auth/forget-form.tsx";
 import { SignForm } from "./app/auth/sign-form.tsx";
+
+// mock
 import mock from "./mock";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
 import usePersistentSidebarState from "./hooks/sidebar.ts";
@@ -65,6 +69,11 @@ const router = createBrowserRouter([
         path: "decile",
         Component: Decile,
         handle: { breadcrumb: "十等分检验图" },
+      },
+      {
+        path: "claim-bubble-chart",
+        Component: ClaimBubbleChart,
+        handle: { breadcrumb: "理赔气泡图" },
       },
     ],
   },
