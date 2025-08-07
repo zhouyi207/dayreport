@@ -114,8 +114,12 @@ export function StackBarChart() {
     ],
   };
   return (
-    <div className="mb-5 border-2 rounded-2xl">
-      <ReactECharts option={option} opts={{ renderer: "svg" }} />
+    <div className="mb-5 border-2 rounded-2xl h-105">
+      <ReactECharts
+        option={option}
+        opts={{ renderer: "svg" }}
+        style={{ height: "100%", width: "100%" }}
+      />
     </div>
   );
 }
