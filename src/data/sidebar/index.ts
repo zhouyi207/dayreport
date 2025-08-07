@@ -1,4 +1,4 @@
-import type {  SidebarData, Team, NavItem, Project } from "./type";
+import type { SidebarData, Team, NavItem, Project } from "./type";
 
 export const sidebarData: SidebarData = {
   user: {
@@ -36,17 +36,15 @@ export const sidebarData: SidebarData = {
       url: "#",
       items: [
         { title: "十等分检验图", url: "/decile" },
-        { title: "理赔气泡图", url: "#" },
-        { title: "理赔整车统计趋势", url: "#" },
-        { title: "理赔非整车统计趋势", url: "#" },
+        { title: "理赔气泡图", url: "/claim-bubble-chart" },
+        { title: "理赔整车统计趋势", url: "/claim-trend-total" },
+        { title: "理赔非整车统计趋势", url: "/claim-trend-single" },
       ],
     },
     {
       title: "智能分析",
       url: "#",
-      items: [
-        { title: "迪保 AI", url: "#" },
-      ],
+      items: [{ title: "迪保 AI", url: "#" }],
     },
     {
       title: "备用材料",
