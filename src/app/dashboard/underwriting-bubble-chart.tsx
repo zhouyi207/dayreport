@@ -154,7 +154,7 @@ export function UnderwritingBubbleChart() {
       <div>
         <Select selectParams={selectParams} onDataChange={onDataChange} />
       </div>
-      <div className="flex flex-1 mt-5">
+      <div className="flex mt-5">
         <div className="flex-1/3 h-125 border-2 rounded-2xl mr-2">
           <BubbleChart />
         </div>
