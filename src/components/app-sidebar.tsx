@@ -5,7 +5,6 @@ import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
-  useSidebar,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -13,7 +12,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import * as React from "react";
-import { type SidebarData } from "@/data/sidebar/type";
+import { useSidebarStore } from "@/stores/useSidebarStore";
 
 import {
   GalleryVerticalEnd,
@@ -27,9 +26,7 @@ import {
   Waypoints,
   Notebook,
 } from "lucide-react";
-
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
 export const nameToIconMapping: IconMapping = {
@@ -50,57 +47,32 @@ export const nameToIconMapping: IconMapping = {
   备忘录: Notebook,
 };
 
-type AppSidebarProps = {
-  getSidebarStatus: (open: boolean) => void;
-} & React.ComponentProps<typeof Sidebar>;
-
-export function AppSidebar({
-  getSidebarStatus, // 确保命名一致
-  ...props
-}: AppSidebarProps) {
-  const [data, setData] = useState<SidebarData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const sidebar = useSidebar();
-  // const [error, setError] = useState(null);
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data, fetchSidebar } = useSidebarStore();
 
   useEffect(() => {
-    getSidebarStatus(sidebar.open)
-  }, [sidebar]);
+    if (!data) {
+      fetchSidebar();
+    }
+  }, [data, fetchSidebar]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/users");
-        setData(response.data);
-      } catch (err) {
-        // setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <Sidebar {...props}>Loading...</Sidebar>;
-  // if (error) return <Sidebar {...props}>Error: {error.message}</Sidebar>;
   if (!data) return <Sidebar {...props}>No data available</Sidebar>;
 
-  data.teams.forEach((element) => {
+  data.teams.forEach((element: any) => {
     const Icon = nameToIconMapping[element.name];
     if (Icon) {
       element.icon = Icon;
     }
   });
 
-  data.navMain.forEach((element) => {
+  data.navMain.forEach((element: any) => {
     const Icon = nameToIconMapping[element.title];
     if (Icon) {
       element.icon = Icon;
     }
   });
 
-  data.projects.forEach((element) => {
+  data.projects.forEach((element: any) => {
     const Icon = nameToIconMapping[element.name];
     if (Icon) {
       element.icon = Icon;
@@ -108,7 +80,7 @@ export function AppSidebar({
   });
 
   return (
-    <Sidebar collapsible="icon" variant="floating" {...props}>
+    <Sidebar side="left" collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
