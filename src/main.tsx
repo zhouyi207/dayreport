@@ -24,6 +24,7 @@ import { SignForm } from "./app/auth/sign-form.tsx";
 import { NotFound } from "./components/NotFound.tsx";
 import { NoPermission } from "./components/NoPermission.tsx";
 
+import { GlobalAuthListener } from "./components/GlobalAuthListener";
 
 // mock
 import mock from "./mock";
@@ -37,6 +38,7 @@ function AppLayout() {
 
   return (
     <SidebarProvider defaultOpen={open}>
+      <GlobalAuthListener />
       <RequireAuth>
         <Dashboard />
       </RequireAuth>
@@ -95,7 +97,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/no-permission",
-    Component: NoPermission
+    Component: NoPermission,
   },
   {
     path: "*",

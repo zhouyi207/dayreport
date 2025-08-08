@@ -18,6 +18,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import type { NavItem } from "@/data/sidebar";
+import { Link } from "react-router";
 
 export function NavMain({ items }: { items: NavItem[] }) {
   return (
@@ -45,9 +46,9 @@ export function NavMain({ items }: { items: NavItem[] }) {
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link to={subItem.url}>
                           <span>{subItem.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

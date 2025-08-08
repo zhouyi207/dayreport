@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export const NotFound = () => {
   return (
     <div className="min-h-screen w-full relative overflow-hidden flex items-center justify-center">
@@ -35,12 +37,12 @@ export const NotFound = () => {
         <p className="text-white/80 text-xl mb-8 max-w-[600px] w-[90%] mx-auto">
           Oops! The page you're looking for seems to be lost in the clouds.
         </p>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-sm font-medium text-primary hover:bg-white/90 transition-colors"
         >
           返回主页
-        </a>
+        </Link>
       </div>
     </div>
   );
