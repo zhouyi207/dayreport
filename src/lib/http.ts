@@ -19,16 +19,16 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (
-      (error.response?.status === 401 &&
-        !error.config.url?.includes("/auth/login/")) ||
-      error.response?.status === 403
-    ) {
-      // token 无效或过期
-      localStorage.removeItem("token");
+    const status = error.response?.status;
+    const url = error.config.url || "";
 
-      // 自动跳转登录页
+    if (status === 401 && !url.includes("/auth/login/")) {
+      // token 无效或过期，跳登录
+      localStorage.removeItem("token");
       window.location.href = "/auth/login";
+    } else if (status === 403) {
+      // 无权限，跳无权限页面或者弹提示
+      window.location.href = "/no-permission";
     }
 
     return Promise.reject(error);
