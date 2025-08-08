@@ -20,6 +20,11 @@ import { ChangeForm } from "./app/auth/change-form.tsx";
 import { ForgetForm } from "./app/auth/forget-form.tsx";
 import { SignForm } from "./app/auth/sign-form.tsx";
 
+// 403, 404
+import { NotFound } from "./components/NotFound.tsx";
+import { NoPermission } from "./components/NoPermission.tsx";
+
+
 // mock
 import mock from "./mock";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
@@ -87,6 +92,14 @@ const router = createBrowserRouter([
       { path: "forget", Component: ForgetForm },
       { path: "sign", Component: SignForm },
     ],
+  },
+  {
+    path: "/no-permission",
+    Component: NoPermission
+  },
+  {
+    path: "*",
+    Component: NotFound,
   },
 ]);
 
