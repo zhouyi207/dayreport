@@ -70,7 +70,7 @@ export function ForgetForm({
               onChange={handlePasswordChange}
             />
           </div>
-                    <div className="grid gap-3">
+          <div className="grid gap-3">
             <div className="flex items-center">
               <Label htmlFor="password">新密码</Label>
             </div>
@@ -82,7 +82,7 @@ export function ForgetForm({
               onChange={handlePasswordChange}
             />
           </div>
-                    <div className="grid gap-3">
+          <div className="grid gap-3">
             <div className="flex items-center">
               <Label htmlFor="password">确认新密码</Label>
             </div>
@@ -99,11 +99,17 @@ export function ForgetForm({
           </Button>
 
           <div className="text-center text-sm">
-            <Link to="/auth/sign" className="underline underline-offset-4">申请账号</Link>
+            <Link to="/auth/sign" className="underline underline-offset-4">
+              申请账号
+            </Link>
             &nbsp; | &nbsp;
-            <Link to="/auth/change" className="underline underline-offset-4">修改密码</Link>
+            <Link to="/auth/change" className="underline underline-offset-4">
+              修改密码
+            </Link>
             &nbsp; | &nbsp;
-            <Link to="/auth/login" className="underline underline-offset-4">返回登录</Link>
+            <Link to="/auth/login" className="underline underline-offset-4">
+              返回登录
+            </Link>
           </div>
         </div>
       </form>
