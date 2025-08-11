@@ -61,6 +61,7 @@ export const sidebarData: SidebarData = {
     { name: "工作计划", url: "#" },
     { name: "工作安排", url: "#" },
     { name: "备忘录", url: "#" },
+    { name: "超级管理员", url: "/superuser" },
   ],
 };
 

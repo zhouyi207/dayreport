@@ -45,6 +45,7 @@ export const nameToIconMapping: IconMapping = {
   工作计划: Route,
   工作安排: Waypoints,
   备忘录: Notebook,
+  超级管理员: Notebook,
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
