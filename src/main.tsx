@@ -12,6 +12,7 @@ import { UnderwritingTrendChart } from "./app/dashboard/underwriting-trend-chart
 import { Decile } from "./app/dashboard/decile.tsx";
 import { ClaimBubbleChart } from "./app/dashboard/claim-bubble-chart.tsx";
 import { Test } from "./app/test.tsx";
+import { SuperUser } from "./app/dashboard/SuperUser.tsx";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
@@ -30,7 +31,6 @@ import { GlobalAuthListener } from "./components/GlobalAuthListener";
 import mock from "./mock";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
 import usePersistentSidebarState from "./hooks/sidebar.ts";
-
 mock.bootstrap();
 
 function AppLayout() {
@@ -81,6 +81,11 @@ const router = createBrowserRouter([
         path: "claim-bubble-chart",
         Component: ClaimBubbleChart,
         handle: { breadcrumb: "理赔气泡图" },
+      },
+      {
+        path: "superuser",
+        Component: SuperUser,
+        handle: { breadcrumb: "超级管理员" },
       },
     ],
   },
