@@ -2,7 +2,6 @@ import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -10,7 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import React from "react";
-import { Outlet, useMatches, type UIMatch } from "react-router";
+import { Link, Outlet, useMatches, type UIMatch } from "react-router";
 
 type CustomRouteMatch = UIMatch & {
   handle?: {
@@ -19,7 +18,6 @@ type CustomRouteMatch = UIMatch & {
 };
 
 function getBreadcrumbLabel(match: CustomRouteMatch) {
-  // 使用类型守卫进行安全访问
   if (match.handle?.breadcrumb !== undefined) {
     return match.handle.breadcrumb;
   }
@@ -58,9 +56,7 @@ export default function Dashboard() {
                         {isLast ? (
                           <BreadcrumbPage>{label}</BreadcrumbPage>
                         ) : (
-                          <BreadcrumbLink href={match.pathname}>
-                            {label}
-                          </BreadcrumbLink>
+                          <Link to={match.pathname}>{label}</Link>
                         )}
                       </BreadcrumbItem>
                       {!isLast && <BreadcrumbSeparator />}
