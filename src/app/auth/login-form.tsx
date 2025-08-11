@@ -12,7 +12,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [username, setusername] = useState("");
+  const [username, setusername] = useState("test@example.com");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,10 +33,13 @@ export function LoginForm({
 
     try {
       const data = await login({ username, password });
-      localStorage.setItem("token", data.access);
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("token_type", data.token_type);
       toast.success("登入成功！");
       navigate(from, { replace: true });
     } catch (err: any) {
+      console.log(err);
       const msg = err.response?.data?.detail || "登录失败，请检查用户名和密码";
       toast.error(msg);
     }
