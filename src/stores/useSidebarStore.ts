@@ -2,18 +2,7 @@
 import { create } from "zustand";
 import { getsiderbar } from "@/api/auth";
 import { persist } from "zustand/middleware";
-import type {
-  Role as BaseRole,
-  SidebarData as BaseSidebarData,
-} from "@/data/sidebar";
-
-interface Role extends BaseRole {
-  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-}
-
-interface SidebarData extends Omit<BaseSidebarData, "roles"> {
-  roles: Role[];
-}
+import type { Role, SidebarData } from "@/data/sidebar";
 
 interface SidebarState {
   data: SidebarData | null;
