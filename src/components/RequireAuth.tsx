@@ -1,40 +1,31 @@
 import { Navigate, useLocation } from "react-router";
 import { useEffect, useState } from "react";
-import { validateToken } from "@/api/auth"; // 用封装好的 API
+import { validateToken } from "@/api/auth";
 import React from "react";
-import { useUserInfo } from "@/stores/useUserInfo";
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [checking, setChecking] = useState(true);
   const [valid, setValid] = useState(false);
-  const { setData } = useUserInfo();
 
   useEffect(() => {
-    const cached = sessionStorage.getItem("token_valid");
-    if (cached === "true") {
-      setValid(true);
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setValid(false);
       setChecking(false);
       return;
     }
 
     validateToken()
-      .then((res) => {
-        setValid(true);
-        setData(res);
-        sessionStorage.setItem("token_valid", "true");
-      })
+      .then(() => setValid(true))
       .catch(() => {
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token_valid");
+        localStorage.removeItem("access_token");
         setValid(false);
       })
       .finally(() => setChecking(false));
   }, []);
 
-  if (checking) {
-    return <></>;
-  }
+  if (checking) return null;
 
   if (!valid) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
