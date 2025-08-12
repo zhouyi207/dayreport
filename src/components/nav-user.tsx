@@ -25,8 +25,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { LogOut as log_out } from "@/api/auth";
 import { useSidebarStore } from "@/stores/useSidebarStore";
+import { Link } from "react-router";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -98,10 +98,13 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              <button onClick={async () => await log_out()}>Log out</button>
-            </DropdownMenuItem>
+
+            <Link to="/auth/login">
+              <DropdownMenuItem>
+                <LogOut />
+                Log out
+              </DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
