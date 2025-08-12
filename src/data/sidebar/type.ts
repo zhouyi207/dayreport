@@ -1,32 +1,32 @@
-interface User {
+export interface User {
   name: string;
   email: string;
-  avatar: string;
+  department: string;
 }
 
-export interface Team {
-  name: string;
-  plan: string;
-  icon?: React.ElementType;
-}
-
-export interface NavItem {
+export interface Item {
   title: string;
   url: string;
-  isActive?: boolean;
-  items?: NavItem[];
-  icon?: React.ElementType;
 }
 
-export interface Project {
+export interface Permission {
+  title: string;
+  url: string;
+  items: Item[];
+}
+
+export interface Role {
+  name: string;
+  permissions: Permission[];
+}
+
+export interface Tool {
   name: string;
   url: string;
-  icon?: React.ElementType;
 }
 
 export interface SidebarData {
   user: User;
-  teams: Team[];
-  navMain: NavItem[];
-  projects: Project[];
+  roles: Role[];
+  tools: Tool[];
 }
