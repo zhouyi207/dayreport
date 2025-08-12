@@ -2,13 +2,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Outlet } from "react-router";
 import Threads from "@/app/background.tsx";
 import { Toaster } from "@/components/ui/sonner";
+import { useSidebarStore } from "@/stores/useSidebarStore";
+import { useEffect } from "react";
 
 export default function Auth() {
-  if (location.pathname.startsWith("/auth")) {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token_valid");
-    console.log("token 已经被清除!!");
-  }
+  const { init } = useSidebarStore();
+
+  useEffect(() => {
+    if (location.pathname.startsWith("/auth")) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("token_type");
+      init();
+      console.log("token 已经被清除!!");
+    }
+  }, []); // [] 确保只执行一次
+
   return (
     <div className="bg-black">
       <div style={{ width: "100%", height: "100vh", position: "fixed" }}>
