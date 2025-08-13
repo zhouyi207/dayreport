@@ -33,15 +33,13 @@ import { SidebarProvider } from "./components/ui/sidebar.tsx";
 import usePersistentSidebarState from "./hooks/sidebar.ts";
 mock.bootstrap();
 
-function AppLayout() {
+function AppLayout({ children }: { children: React.ReactNode }) {
   const [open] = usePersistentSidebarState();
 
   return (
     <SidebarProvider defaultOpen={open}>
       <GlobalAuthListener />
-      <RequireAuth>
-        <Dashboard />
-      </RequireAuth>
+      <RequireAuth>{children}</RequireAuth>
     </SidebarProvider>
   );
 }
@@ -49,7 +47,11 @@ function AppLayout() {
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: AppLayout,
+    Component: () => (
+      <AppLayout>
+        <Dashboard />
+      </AppLayout>
+    ),
     handle: { breadcrumb: "主页" },
     children: [
       {
@@ -87,6 +89,14 @@ const router = createBrowserRouter([
         Component: SuperUser,
         handle: { breadcrumb: "超级管理员" },
       },
+      {
+        path: "/no-permission",
+        Component: NoPermission,
+      },
+      {
+        path: "*",
+        Component: NotFound,
+      },
     ],
   },
   {
@@ -99,14 +109,6 @@ const router = createBrowserRouter([
       { path: "forget", Component: ForgetForm },
       { path: "sign", Component: SignForm },
     ],
-  },
-  {
-    path: "/no-permission",
-    Component: NoPermission,
-  },
-  {
-    path: "*",
-    Component: NotFound,
   },
 ]);
 
