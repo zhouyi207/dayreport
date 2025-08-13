@@ -1,4 +1,3 @@
-// stores/useSidebarStore.ts
 import { create } from "zustand";
 import { getsiderbar } from "@/api/auth";
 import type { Role, SidebarData } from "@/data/sidebar";
