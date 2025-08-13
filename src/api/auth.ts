@@ -13,19 +13,13 @@ interface LoginResponse {
   token_type: string;
 }
 
-interface User {
-  id: number;
-  username: string;
-  roles: string;
-}
-
 interface LogoutResponse {
   msg: string;
 }
 
 interface Me {
   id: number;
-  username: string;
+  email: string;
   name: string;
   department: string;
   work_id: number;
@@ -47,11 +41,6 @@ export async function validateToken(): Promise<Me> {
 
 export async function getsiderbar(): Promise<SidebarData> {
   const res = await http.get("/api/auth/sidebar");
-  return res.data;
-}
-
-export async function getuserList(): Promise<User[]> {
-  const res = await http.get("/api/user_list");
   return res.data;
 }
 

@@ -20,7 +20,7 @@ export function LoginForm({
   const from = location.state?.from?.pathname || "/";
 
   // 处理输入变化
-  const handleusernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleemailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setusername(e.target.value);
   };
 
@@ -54,14 +54,14 @@ export function LoginForm({
             <p className="text-muted-foreground text-balance">登录账号</p>
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="username">邮箱</Label>
+            <Label htmlFor="email">邮箱</Label>
             <Input
-              id="username"
+              id="email"
               type="email"
               placeholder="m@example.com"
               required
               value={username}
-              onChange={handleusernameChange}
+              onChange={handleemailChange}
             />
           </div>
           <div className="grid gap-3">
