@@ -12,7 +12,8 @@ import { UnderwritingTrendChart } from "./app/dashboard/underwriting-trend-chart
 import { Decile } from "./app/dashboard/decile.tsx";
 import { ClaimBubbleChart } from "./app/dashboard/claim-bubble-chart.tsx";
 import { Test } from "./app/test.tsx";
-import { SuperUser } from "./app/dashboard/SuperUser.tsx";
+import { RoleManage } from "./app/superUser/RoleManage.tsx";
+import { UserManage } from "./app/superUser/UserManage.tsx";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
@@ -30,11 +31,11 @@ import { GlobalAuthListener } from "./components/GlobalAuthListener";
 // mock
 import mock from "./mock";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
-import usePersistentSidebarState from "./hooks/sidebar.ts";
+import usePersistentState from "./hooks/sidebar.ts";
 mock.bootstrap();
 
 function AppLayout({ children }: { children: React.ReactNode }) {
-  const [open] = usePersistentSidebarState();
+  const [open] = usePersistentState("sidebar_state", true);
 
   return (
     <SidebarProvider defaultOpen={open}>
@@ -85,9 +86,14 @@ const router = createBrowserRouter([
         handle: { breadcrumb: "理赔气泡图" },
       },
       {
-        path: "superuser",
-        Component: SuperUser,
-        handle: { breadcrumb: "超级管理员" },
+        path: "usermanage",
+        Component: UserManage,
+        handle: { breadcrumb: "用户管理" },
+      },
+      {
+        path: "rolemanage",
+        Component: RoleManage,
+        handle: { breadcrumb: "角色管理" },
       },
       {
         path: "/no-permission",
