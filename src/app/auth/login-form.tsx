@@ -39,8 +39,22 @@ export function LoginForm({
       toast.success("登入成功！");
       navigate(from, { replace: true });
     } catch (err: any) {
-      console.log(err);
-      const msg = err.response?.data?.detail || "登录失败，请检查用户名和密码";
+      let msg = "登录失败，请检查用户名和密码";
+
+      if (!err.response) {
+        msg = "无法连接到服务器，请检查网络";
+      } else if (Array.isArray(err.response.data?.detail)) {
+        msg = err.response.data.detail.map((d: any) => d.msg).join("，");
+      } else if (typeof err.response.data?.detail === "string") {
+        msg = err.response.data.detail;
+      } else if (err.response.data?.message) {
+        msg = err.response.data.message;
+      } else if (err.response.data?.error) {
+        msg = err.response.data.error;
+      } else if (err.message) {
+        msg = err.message;
+      }
+
       toast.error(msg);
     }
   };
