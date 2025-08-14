@@ -20,12 +20,7 @@ import {
 import { Link } from "react-router";
 
 import { useSidebarStore } from "@/stores/useSidebarStore";
-import {
-  Component,
-  ChartPie,
-  Bot,
-  FileStack,
-} from "lucide-react";
+import { Component, ChartPie, Bot, FileStack, UserRound } from "lucide-react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
 export const nameToIconMapping: IconMapping = {
@@ -34,6 +29,7 @@ export const nameToIconMapping: IconMapping = {
   预期边际利润可实现性分析: ChartPie,
   智能分析: Bot,
   备用材料: FileStack,
+  超级管理员: UserRound,
 };
 
 export function NavMain() {
