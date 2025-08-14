@@ -11,7 +11,7 @@ export function ForgetForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
