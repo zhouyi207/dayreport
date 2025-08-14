@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getsiderbar } from "@/api/auth";
 import type { Role, SidebarData } from "@/data/sidebar";
+import { devtools } from "zustand/middleware";
 
 interface SidebarState {
   data: SidebarData | null;
@@ -10,28 +11,29 @@ interface SidebarState {
   fetchSidebar: () => Promise<void>;
 }
 
-export const useSidebarStore = create<SidebarState>()((set, get) => ({
-  data: null,
-  roles: [],
-  activateRole: undefined,
 
-  init: async () => {
-    set({ data: null, activateRole: undefined });
-  },
+export const useSidebarStore = create<SidebarState>()(
+  devtools((set, get) => ({
+    data: null,
+    activateRole: undefined,
 
-  setActivateRole: (role: Role) => {
-    set({ activateRole: role });
-  },
-
-  fetchSidebar: async () => {
-    try {
-      const rawData = await getsiderbar();
-      set({
-        data: rawData,
-        activateRole: rawData.roles[0],
-      });
-    } catch (e) {
+    init: async () => {
       set({ data: null, activateRole: undefined });
-    }
-  },
-}));
+    },
+
+    setActivateRole: (role: Role) => {
+      set({ activateRole: role });
+    },
+
+    fetchSidebar: async () => {
+      try {
+        const rawData = await getsiderbar();
+        set({
+          data: rawData,
+        });
+      } catch (e) {
+        set({ data: null, activateRole: undefined });
+      }
+    },
+  }))
+);
