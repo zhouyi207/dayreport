@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
 
-export function SignForm({
+export default function SignForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {

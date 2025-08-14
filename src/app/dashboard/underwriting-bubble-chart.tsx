@@ -144,7 +144,7 @@ export function UnderwritingTable() {
   );
 }
 
-export function UnderwritingBubbleChart() {
+export default function UnderwritingBubbleChart() {
   const onDataChange = (data: any) => {
     console.log("Data changed:", data);
   };

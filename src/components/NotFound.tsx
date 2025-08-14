@@ -1,6 +1,6 @@
 "use client";
 
-export function NotFound() {
+export default function NotFound() {
   return (
     <section className="bg-white font-serif min-h-screen flex items-center justify-center">
       <div className="container mx-auto">

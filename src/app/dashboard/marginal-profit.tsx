@@ -124,7 +124,7 @@ export function StackBarChart() {
   );
 }
 
-export function MarginalProfitTable() {
+export default function MarginalProfitTable() {
   return (
     <Table className="border-collapse [&_th]:border-0 [&_td]:border-0 [&_tr]:border-0">
       <TableHeader>

@@ -8,7 +8,7 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 import { login } from "@/api/auth";
 
-export function LoginForm({
+export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {

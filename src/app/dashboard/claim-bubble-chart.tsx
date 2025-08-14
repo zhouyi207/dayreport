@@ -145,7 +145,7 @@ export function ClaimTable() {
   );
 }
 
-export function ClaimBubbleChart() {
+export default function ClaimBubbleChart() {
   const onDataChange = (data: any) => {
     console.log("Data changed:", data);
   };

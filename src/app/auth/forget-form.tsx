@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
 
-export function ForgetForm({
+export default function ForgetForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {

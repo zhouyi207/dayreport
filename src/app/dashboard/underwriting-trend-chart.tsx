@@ -20,7 +20,7 @@ import { EChartAreaInteractive } from "@/components/echart/AreaChart";
 import { chartAreaInteractiveParams } from "@/data/chartArea";
 import { useState } from "react";
 
-export function UnderwritingTrendChart() {
+export default function UnderwritingTrendChart() {
   const [timeRange, setTimeRange] = useState("90d");
   const onDataChange = (data: any) => {
     console.log("Data changed:", data);

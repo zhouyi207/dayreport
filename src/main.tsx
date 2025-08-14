@@ -6,25 +6,25 @@ import { RequireAuth } from "@/components/RequireAuth";
 
 // dashboard
 import Dashboard from "./app/dashboard/page.tsx";
-import { MarginalProfit } from "./app/dashboard/marginal-profit.tsx";
-import { UnderwritingBubbleChart } from "./app/dashboard/underwriting-bubble-chart.tsx";
-import { UnderwritingTrendChart } from "./app/dashboard/underwriting-trend-chart.tsx";
-import { Decile } from "./app/dashboard/decile.tsx";
-import { ClaimBubbleChart } from "./app/dashboard/claim-bubble-chart.tsx";
-import { Test } from "./app/test.tsx";
-import { RoleManage } from "./app/superUser/RoleManage.tsx";
-import { UserManage } from "./app/superUser/UserManage.tsx";
+import MarginalProfit from "./app/dashboard/marginal-profit.tsx";
+import UnderwritingBubbleChart from "./app/dashboard/underwriting-bubble-chart.tsx";
+import UnderwritingTrendChart from "./app/dashboard/underwriting-trend-chart.tsx";
+import Decile from "./app/dashboard/decile.tsx";
+import ClaimBubbleChart from "./app/dashboard/claim-bubble-chart.tsx";
+import Test from "./app/test.tsx";
+import RoleManage from "./app/superUser/RoleManage.tsx";
+import UserManage from "./app/superUser/UserManage.tsx";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
-import { LoginForm } from "./app/auth/login-form.tsx";
-import { ChangeForm } from "./app/auth/change-form.tsx";
-import { ForgetForm } from "./app/auth/forget-form.tsx";
-import { SignForm } from "./app/auth/sign-form.tsx";
+import LoginForm from "./app/auth/login-form.tsx";
+import ChangeForm from "./app/auth/change-form.tsx";
+import ForgetForm from "./app/auth/forget-form.tsx";
+import SignForm from "./app/auth/sign-form.tsx";
 
 // 403, 404
-import { NotFound } from "./components/NotFound.tsx";
-import { NoPermission } from "./components/NoPermission.tsx";
+import NotFound from "./components/NotFound.tsx";
+import NoPermission from "./components/NoPermission.tsx";
 
 import { GlobalAuthListener } from "./components/GlobalAuthListener";
 

@@ -414,7 +414,7 @@ function UserManagement({
   );
 }
 
-export function UserManage() {
+export default function UserManage() {
   const [users, setUsers] = useState<User[]>([]);
   const { fetchData } = useSuperUserStore();
 

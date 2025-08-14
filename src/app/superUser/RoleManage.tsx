@@ -185,7 +185,7 @@ function RoleManagement({ roles }: { roles: Role[] }) {
   );
 }
 
-export function RoleManage() {
+export default function RoleManage() {
   const [roles, setRoles] = useState<Role[]>([]);
   const { fetchData } = useSuperUserStore();
 

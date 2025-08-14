@@ -1,6 +1,6 @@
 "use client";
 
-export function NoPermission() {
+export default function NoPermission() {
   return (
     <section className="bg-white font-serif min-h-screen flex items-center justify-center">
       <div className="container mx-auto">

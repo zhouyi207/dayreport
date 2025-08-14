@@ -5,7 +5,7 @@ import { EChartAreaInteractive } from "@/components/echart/AreaChart";
 import { BubbleChart } from "@/components/echart/BubbleChart";
 import { MapChart } from "@/components/echart/MapChat";
 
-export function Test() {
+export default function Test() {
   return (
     <div className="h-screen overflow-y-scroll">
       <div className="h-200">

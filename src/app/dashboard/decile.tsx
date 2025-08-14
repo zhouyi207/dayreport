@@ -113,7 +113,7 @@ const option = {
   ],
 };
 
-export function Decile() {
+export default function Decile() {
   const onDataChange = (data: any) => {
     console.log("Data changed:", data);
   };
