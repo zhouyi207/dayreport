@@ -15,11 +15,16 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useShortcut } from "@/hooks/use-shortcut";
 import { useSidebarStore } from "@/stores/useSidebarStore";
-import { GalleryVerticalEnd, AudioWaveform } from "lucide-react";
+import { GalleryVerticalEnd, AudioWaveform, UserCog } from "lucide-react";
+import usePersistentState from "@/hooks/sidebar";
+import type { Role } from "@/data/sidebar";
+import { useEffect } from "react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
 export const nameToIconMapping: IconMapping = {
+  管理员: UserCog,
   普通: GalleryVerticalEnd,
   限制: AudioWaveform,
 };
@@ -27,6 +32,31 @@ export const nameToIconMapping: IconMapping = {
 export function RoleSwitcher() {
   const { isMobile } = useSidebar();
   const { data, activateRole, setActivateRole } = useSidebarStore();
+  const [role, setRole] = usePersistentState<string>("role_name", "");
+
+  data?.roles.forEach((role, index) => {
+    useShortcut([`${index + 1}`], () => setActivateRole(role), {
+      requireCtrlOrMeta: true,
+      preventDefault: true,
+    });
+  });
+
+  useEffect(() => {
+    if (!data?.roles?.length) return;
+
+    const foundRole = data.roles.find((item: Role) => item.name === role);
+
+    if (foundRole) {
+      if (activateRole?.name !== foundRole.name) {
+        setActivateRole(foundRole);
+      }
+    } else if (activateRole?.name) {
+      setRole(activateRole.name);
+    } else {
+      setActivateRole(data.roles[0]);
+      setRole(data.roles[0].name);
+    }
+  }, [role, data]);
 
   if (!activateRole) {
     return null;
@@ -50,7 +80,6 @@ export function RoleSwitcher() {
                 <span className="truncate font-medium">
                   {activateRole.name}
                 </span>
-                <span className="truncate text-xs">这里填充一些</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -62,14 +91,17 @@ export function RoleSwitcher() {
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Teams
+              选择角色
             </DropdownMenuLabel>
             {data?.roles.map((role, index) => {
               const IconComponent = nameToIconMapping[role.name];
               return (
                 <DropdownMenuItem
                   key={role.name}
-                  onClick={() => setActivateRole(role)}
+                  onClick={() => {
+                    setActivateRole(role);
+                    setRole(role.name);
+                  }}
                   className="gap-2 p-2"
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">
