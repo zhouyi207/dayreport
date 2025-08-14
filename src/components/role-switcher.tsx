@@ -23,19 +23,25 @@ import type { Role } from "@/data/sidebar";
 import { useEffect } from "react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
-export const nameToIconMapping: IconMapping = {
-  管理员: UserCog,
-  普通: GalleryVerticalEnd,
-  限制: AudioWaveform,
-};
 
 export function RoleSwitcher() {
   const { isMobile } = useSidebar();
   const { data, activateRole, setActivateRole } = useSidebarStore();
-  const [role, setRole] = usePersistentState<string>("role_name", "");
+  const [rolename, setRolename] = usePersistentState<string>("role_name", "");
+
+  const nameToIconMapping: IconMapping = {
+    管理员: UserCog,
+    普通: GalleryVerticalEnd,
+    限制: AudioWaveform,
+  };
+
+  const setRole = (newRole: Role) => {
+    setRolename(newRole.name);
+    setActivateRole(newRole);
+  };
 
   data?.roles.forEach((role, index) => {
-    useShortcut([`${index + 1}`], () => setActivateRole(role), {
+    useShortcut([`${index + 1}`], () => setRole(role), {
       requireCtrlOrMeta: true,
       preventDefault: true,
     });
@@ -44,19 +50,15 @@ export function RoleSwitcher() {
   useEffect(() => {
     if (!data?.roles?.length) return;
 
-    const foundRole = data.roles.find((item: Role) => item.name === role);
-
+    const foundRole = data.roles.find((item: Role) => item.name === rolename);
     if (foundRole) {
       if (activateRole?.name !== foundRole.name) {
-        setActivateRole(foundRole);
+        setRole(foundRole);
       }
-    } else if (activateRole?.name) {
-      setRole(activateRole.name);
     } else {
-      setActivateRole(data.roles[0]);
-      setRole(data.roles[0].name);
+      setRole(data.roles[0]);
     }
-  }, [role, data]);
+  }, [rolename, data]);
 
   if (!activateRole) {
     return null;
@@ -98,10 +100,7 @@ export function RoleSwitcher() {
               return (
                 <DropdownMenuItem
                   key={role.name}
-                  onClick={() => {
-                    setActivateRole(role);
-                    setRole(role.name);
-                  }}
+                  onClick={() => setRole(role)}
                   className="gap-2 p-2"
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">

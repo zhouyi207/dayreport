@@ -23,18 +23,18 @@ import { useSidebarStore } from "@/stores/useSidebarStore";
 import { Component, ChartPie, Bot, FileStack, UserRound } from "lucide-react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
-export const nameToIconMapping: IconMapping = {
-  // 导航标题映射
+
+export function NavMain() {
+  const { activateRole } = useSidebarStore();
+  const items = activateRole?.permissions;
+
+  const nameToIconMapping: IconMapping = {
   预期边际利润来源分析: Component,
   预期边际利润可实现性分析: ChartPie,
   智能分析: Bot,
   备用材料: FileStack,
   超级管理员: UserRound,
 };
-
-export function NavMain() {
-  const { activateRole } = useSidebarStore();
-  const items = activateRole?.permissions;
 
   if (!items) {
     return null;

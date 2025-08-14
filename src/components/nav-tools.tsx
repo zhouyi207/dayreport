@@ -24,17 +24,18 @@ import { useSidebarStore } from "@/stores/useSidebarStore";
 import { Route, Waypoints, Notebook } from "lucide-react";
 
 type IconMapping = Record<string, React.FC<React.SVGProps<SVGSVGElement>>>;
-export const nameToIconMapping: IconMapping = {
-  工作计划: Route,
-  工作安排: Waypoints,
-  备忘录: Notebook,
-  超级管理员: Notebook,
-};
 
 export function NavTools() {
   const { isMobile } = useSidebar();
   const { data } = useSidebarStore();
   const tools = data?.tools;
+
+  const nameToIconMapping: IconMapping = {
+    工作计划: Route,
+    工作安排: Waypoints,
+    备忘录: Notebook,
+    超级管理员: Notebook,
+  };
 
   if (!tools) {
     return null;
