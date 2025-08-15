@@ -114,17 +114,15 @@ export function StackBarChart() {
     ],
   };
   return (
-    <div className="mb-5 border-2 rounded-2xl h-105">
-      <ReactECharts
-        option={option}
-        opts={{ renderer: "svg" }}
-        style={{ height: "100%", width: "100%" }}
-      />
-    </div>
+    <ReactECharts
+      option={option}
+      opts={{ renderer: "svg" }}
+      style={{ height: "100%", width: "100%" }}
+    />
   );
 }
 
-export default function MarginalProfitTable() {
+export function MarginalProfitTable() {
   return (
     <Table className="border-collapse [&_th]:border-0 [&_td]:border-0 [&_tr]:border-0">
       <TableHeader>
@@ -132,80 +130,80 @@ export default function MarginalProfitTable() {
         <TableRow className="bg-gray-50">
           <TableHead
             colSpan={2}
-            className="p-2 text-center text-sm font-semibold text-gray-700"
+            className="text-center text-sm font-semibold text-gray-700"
           >
             组别
           </TableHead>
           <TableHead
             colSpan={5}
-            className="p-2 text-center text-sm font-semibold text-gray-700"
+            className="text-center text-sm font-semibold text-gray-700"
           >
             本年合计数(截至昨日)
           </TableHead>
           <TableHead
             colSpan={5}
-            className="p-2 text-center text-sm font-semibold text-gray-700"
+            className="text-center text-sm font-semibold text-gray-700"
           >
-            本年合计数(截至昨日)
+            本月合计数(截至昨日)
           </TableHead>
           <TableHead
             colSpan={5}
-            className="p-2 text-center text-sm font-semibold text-gray-700"
+            className="text-center text-sm font-semibold text-gray-700"
           >
-            本年合计数(截至昨日)
+            昨日合计数
           </TableHead>
         </TableRow>
         {/* 第二行表头 */}
         <TableRow className="bg-gray-50">
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             分组序号
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             标费预期赔付率分组
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费占比
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             平均定价系数
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单预期赔付率
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             边际贡献额
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费占比
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             平均定价系数
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单预期赔付率
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             边际贡献额
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单保费占比
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             平均定价系数
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             签单预期赔付率
           </TableHead>
-          <TableHead className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
             边际贡献额
           </TableHead>
         </TableRow>
@@ -216,14 +214,14 @@ export default function MarginalProfitTable() {
             key={index}
             className={`bg-${
               index % 2 === 0 ? "gray-50" : "white"
-            } hover:bg-gray-100 transition-colors`}
+            } hover:bg-gray-100 transition-colors h-full`}
           >
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["分组序号"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm text-gray-500">
+            <TableCell className="text-center text-sm text-gray-500">
               <span
-                className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                className={`text-xs font-semibold rounded-full ${
                   data["标费预期赔付率分组"][index] === "Pending"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-green-100 text-green-800"
@@ -232,51 +230,51 @@ export default function MarginalProfitTable() {
                 {data["标费预期赔付率分组"][index]}
               </span>
             </TableCell>
-            <TableCell className="text-center p-2 text-sm text-gray-500">
+            <TableCell className="text-center text-sm text-gray-500">
               {data["本年签单保费"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {data["本年签单保费占比"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本年平均定价系数"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本年签单预期赔付率"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本年边际贡献额"][index]}
             </TableCell>
 
-            <TableCell className="text-center p-2 text-sm text-gray-500">
+            <TableCell className="text-center text-sm text-gray-500">
               {data["本月签单保费"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {data["本月签单保费占比"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本月平均定价系数"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本月签单预期赔付率"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["本月边际贡献额"][index]}
             </TableCell>
 
-            <TableCell className="text-center p-2 text-sm text-gray-500">
+            <TableCell className="text-center text-sm text-gray-500">
               {data["昨日签单保费"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {data["昨日签单保费占比"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["昨日平均定价系数"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["昨日签单预期赔付率"][index]}
             </TableCell>
-            <TableCell className="text-center p-2 text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm font-medium text-gray-900">
               {data["昨日边际贡献额"][index]}
             </TableCell>
           </TableRow>
@@ -286,12 +284,15 @@ export default function MarginalProfitTable() {
   );
 }
 
-export function MarginalProfit() {
+export default function MarginalProfit() {
   return (
-    <div>
-      <StackBarChart />
-      <Tabs defaultValue="整体">
-        <div className="flex justify-end m-0 mb-2">
+    <div className="h-full flex flex-col">
+      <div className="flex-1 border-2 rounded-2xl overflow-hidden min-h-50">
+        <StackBarChart />
+      </div>
+
+      <Tabs defaultValue="整体" className="gap-0">
+        <div className="flex justify-end mt-3 mb-3">
           <TabsList className="bg-green-200">
             <TabsTrigger value="整体" className="w-40">
               整体
@@ -306,17 +307,17 @@ export function MarginalProfit() {
         </div>
 
         <TabsContent value="整体">
-          <div className="rounded-lg border overflow-hidden">
+          <div className="border-2 rounded-2xl h-full overflow-auto">
             <MarginalProfitTable />
           </div>
         </TabsContent>
         <TabsContent value="新车">
-          <div className="rounded-lg border overflow-hidden">
+          <div className="border-2 rounded-2xl h-full overflow-hidden">
             <MarginalProfitTable />
           </div>
         </TabsContent>
         <TabsContent value="旧车">
-          <div className="rounded-lg border overflow-hidden">
+          <div className="border-2 rounded-2xl h-full overflow-hidden">
             <MarginalProfitTable />
           </div>
         </TabsContent>
