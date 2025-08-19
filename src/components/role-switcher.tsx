@@ -42,8 +42,8 @@ export function RoleSwitcher() {
 
   data?.roles.forEach((role, index) => {
     useShortcut([`${index + 1}`], () => setRole(role), {
-      requireCtrlOrMeta: true,
-      preventDefault: true,
+      requireCtrlOrMeta: false,
+      preventDefault: false,
     });
   });
 
