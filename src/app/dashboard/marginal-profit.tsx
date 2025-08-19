@@ -8,66 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ReactECharts from "echarts-for-react";
+import {
+  getmarginalProfit,
+  type MarginalPorfit,
+  type TotalMarginalProfit,
+} from "@/api/marginalProfit";
+import { useEffect, useState } from "react";
 
-const data = {
-  分组序号: ["A", "B", "C", "D", "E", "F", "G", "H"],
-  标费预期赔付率分组: [
-    "65%及以下",
-    "65%-75%",
-    "75%-85%",
-    "85%-95%",
-    "95%-105%",
-    "105%-120%",
-    "120%-140%",
-    "140%以上",
-  ],
-  本年签单保费: [100, 200, 300, 400, 500, 600, 700, 800],
-  本年签单保费占比: ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%"],
-  本年平均定价系数: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8],
-  本年签单预期赔付率: [
-    "60%",
-    "70%",
-    "80%",
-    "90%",
-    "100%",
-    "110%",
-    "120%",
-    "130%",
-  ],
-  本年边际贡献额: [10, 20, 30, 40, 50, 60, 70, 80],
-  本月签单保费: [100, 200, 300, 400, 500, 600, 700, 800],
-  本月签单保费占比: ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%"],
-  本月平均定价系数: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8],
-  本月签单预期赔付率: [
-    "60%",
-    "70%",
-    "80%",
-    "90%",
-    "100%",
-    "110%",
-    "120%",
-    "130%",
-  ],
-  本月边际贡献额: [10, 20, 30, 40, 50, 60, 70, 80],
-  昨日签单保费: [100, 200, 300, 400, 500, 600, 700, 800],
-  昨日签单保费占比: ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%"],
-  昨日平均定价系数: [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8],
-  昨日签单预期赔付率: [
-    "60%",
-    "70%",
-    "80%",
-    "90%",
-    "100%",
-    "110%",
-    "120%",
-    "130%",
-  ],
-  昨日边际贡献额: [10, 20, 30, 40, 50, 60, 70, 80],
-};
-
-export function StackBarChart() {
+export function StackBarChart({ data }: { data: MarginalPorfit[] }) {
   const option = {
     grid: {
       left: "3%",
@@ -84,7 +33,7 @@ export function StackBarChart() {
     xAxis: [
       {
         type: "category",
-        data: data.标费预期赔付率分组,
+        data: data.map((item) => item["标费预期赔付率分组"]),
       },
     ],
     yAxis: [
@@ -100,7 +49,7 @@ export function StackBarChart() {
         emphasis: {
           focus: "series",
         },
-        data: data.昨日签单保费,
+        data: data.map((item) => item["昨日签单保费"]),
       },
       {
         name: "昨日平均定价系数",
@@ -109,7 +58,7 @@ export function StackBarChart() {
         emphasis: {
           focus: "series",
         },
-        data: data.昨日签单保费,
+        data: data.map((item) => item["昨日签单保费"]),
       },
     ],
   };
@@ -122,7 +71,7 @@ export function StackBarChart() {
   );
 }
 
-export function MarginalProfitTable() {
+export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
   return (
     <Table className="border-collapse [&_th]:border-0 [&_td]:border-0 [&_tr]:border-0">
       <TableHeader>
@@ -209,7 +158,7 @@ export function MarginalProfitTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Array.from({ length: 8 }).map((_, index) => (
+        {data.map((item, index) => (
           <TableRow
             key={index}
             className={`bg-${
@@ -217,65 +166,55 @@ export function MarginalProfitTable() {
             } hover:bg-gray-100 transition-colors h-full`}
           >
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["分组序号"][index]}
+              {item["分组序号"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-500">
-              <span
-                className={`text-xs font-semibold rounded-full ${
-                  data["标费预期赔付率分组"][index] === "Pending"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-green-100 text-green-800"
-                }`}
-              >
-                {data["标费预期赔付率分组"][index]}
-              </span>
+              {item["标费预期赔付率分组"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-500">
-              {data["本年签单保费"][index]}
+              {item["本年签单保费"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-900">
-              {data["本年签单保费占比"][index]}
+              {item["本年签单保费占比"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本年平均定价系数"][index]}
+              {item["本年平均定价系数"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本年签单预期赔付率"][index]}
+              {item["本年签单预期赔付率"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本年边际贡献额"][index]}
+              {item["本年边际贡献额"]}
             </TableCell>
-
             <TableCell className="text-center text-sm text-gray-500">
-              {data["本月签单保费"][index]}
+              {item["本月签单保费"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-900">
-              {data["本月签单保费占比"][index]}
+              {item["本月签单保费占比"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本月平均定价系数"][index]}
+              {item["本月平均定价系数"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本月签单预期赔付率"][index]}
+              {item["本月签单预期赔付率"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["本月边际贡献额"][index]}
+              {item["本月边际贡献额"]}
             </TableCell>
-
             <TableCell className="text-center text-sm text-gray-500">
-              {data["昨日签单保费"][index]}
+              {item["昨日签单保费"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-900">
-              {data["昨日签单保费占比"][index]}
+              {item["昨日签单保费占比"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["昨日平均定价系数"][index]}
+              {item["昨日平均定价系数"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["昨日签单预期赔付率"][index]}
+              {item["昨日签单预期赔付率"]}
             </TableCell>
             <TableCell className="text-center text-sm font-medium text-gray-900">
-              {data["昨日边际贡献额"][index]}
+              {item["昨日边际贡献额"]}
             </TableCell>
           </TableRow>
         ))}
@@ -285,43 +224,87 @@ export function MarginalProfitTable() {
 }
 
 export default function MarginalProfit() {
+  const [selectedTab1, setSelectedTab1] = useState<"v1" | "v2">("v1");
+  const [selectedTab2, setSelectedTab2] = useState<"整体" | "新车" | "旧车">(
+    "整体"
+  );
+  const [data, setData] = useState<TotalMarginalProfit>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getmarginalProfit();
+      setData(data);
+    }
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return;
+  }
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 border-2 rounded-2xl overflow-hidden min-h-50">
-        <StackBarChart />
+        <StackBarChart data={data[selectedTab1][selectedTab2]} />
       </div>
 
-      <Tabs defaultValue="整体" className="gap-0">
-        <div className="flex justify-end mt-3 mb-3">
-          <TabsList className="bg-green-200">
-            <TabsTrigger value="整体" className="w-40">
-              整体
-            </TabsTrigger>
-            <TabsTrigger value="新车" className="w-40">
-              新车
-            </TabsTrigger>
-            <TabsTrigger value="旧车" className="w-40">
-              旧车
-            </TabsTrigger>
-          </TabsList>
+      <div defaultValue="整体" className="flex flex-col gap-0">
+        <div className="flex justify-between w-full mt-3 mb-3">
+          <div className="flex">
+            <div className="text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] bg-green-200">
+              <div
+                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                  selectedTab1 === "v1" ? "bg-white" : ""
+                }`}
+                onClick={() => setSelectedTab1("v1")}
+              >
+                v1
+              </div>
+              <div
+                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                  selectedTab1 === "v2" ? "bg-white" : ""
+                }`}
+                onClick={() => setSelectedTab1("v2")}
+              >
+                v2
+              </div>
+            </div>
+          </div>
+
+          <div className="flex">
+            <div className="text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] bg-green-200">
+              <div
+                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                  selectedTab2 === "整体" ? "bg-white" : ""
+                }`}
+                onClick={() => setSelectedTab2("整体")}
+              >
+                整体
+              </div>
+              <div
+                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                  selectedTab2 === "新车" ? "bg-white" : ""
+                }`}
+                onClick={() => setSelectedTab2("新车")}
+              >
+                新车
+              </div>
+              <div
+                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                  selectedTab2 === "旧车" ? "bg-white" : ""
+                }`}
+                onClick={() => setSelectedTab2("旧车")}
+              >
+                旧车
+              </div>
+            </div>
+          </div>
         </div>
 
-        <TabsContent value="整体">
-          <div className="border-2 rounded-2xl h-full overflow-auto">
-            <MarginalProfitTable />
-          </div>
-        </TabsContent>
-        <TabsContent value="新车">
-          <div className="border-2 rounded-2xl h-full overflow-hidden">
-            <MarginalProfitTable />
-          </div>
-        </TabsContent>
-        <TabsContent value="旧车">
-          <div className="border-2 rounded-2xl h-full overflow-hidden">
-            <MarginalProfitTable />
-          </div>
-        </TabsContent>
-      </Tabs>
+        <div className="border-2 rounded-2xl h-full overflow-hidden">
+          <MarginalProfitTable data={data[selectedTab1][selectedTab2]} />
+        </div>
+      </div>
     </div>
   );
 }
