@@ -6,7 +6,6 @@ import {
   CardTitle,
   CardAction,
 } from "@/components/ui/card";
-
 import {
   Select,
   SelectContent,
@@ -15,95 +14,204 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Select as Select_ } from "@/components/custom-ui/select";
-import { selectParams } from "@/data/select";
-import { EChartAreaInteractive } from "@/components/echart/AreaChart";
-import { chartAreaInteractiveParams } from "@/data/chartArea";
 import { useState } from "react";
+import type { SelectParams, Selected } from "@/data/select";
+import ReactECharts from "echarts-for-react";
+import * as echarts from "echarts";
+import { getselects } from "@/api/protected";
+import { useEffect } from "react";
+import type {
+  DateState,
+  CheckState,
+  DateStateWithoutOpen,
+} from "@/data/select";
+import {
+  getunderwritingTrend,
+  type TrendData,
+  type DataItem,
+} from "@/api/underwritingTrend";
+
+function convertDateStateWithoutOpen(
+  dateState: DateState
+): DateStateWithoutOpen {
+  const result: DateStateWithoutOpen = {};
+
+  for (const date in dateState) {
+    const options = dateState[date];
+    result[date] = {};
+
+    for (const option in options) {
+      const { selected } = options[option];
+      result[date][option] = { selected };
+    }
+  }
+
+  return result;
+}
+
+export function TrendChart({ data, col }: { data: DataItem[]; col: string }) {
+  const option = {
+    grid: {
+      left: "4%", // 无左边距
+      right: "2%", // 无右边距
+      bottom: "10%", // 无下边距
+    },
+    tooltip: {
+      trigger: "axis",
+      triggerOn: "mousemove",
+      axisPointer: {
+        type: "line", // 或 'shadow'，显示跟随指示线
+      },
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: data.map((item) => item.date),
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        showSymbol: false,
+        data: data.map((item) => item[col]),
+        type: "line",
+        smooth: 0.6,
+        smoothMonotone: "x",
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: "rgba(0, 136, 212, 0.8)" },
+            { offset: 1, color: "rgba(0, 255, 255, 0.2)" },
+          ]),
+        },
+      },
+    ],
+  };
+
+  return (
+    <ReactECharts
+      option={option}
+      opts={{ renderer: "svg" }}
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
+}
 
 export default function UnderwritingTrendChart() {
-  const [timeRange, setTimeRange] = useState("90d");
-  const onDataChange = (data: any) => {
-    console.log("Data changed:", data);
+  const [selectParams, setSelectParams] = useState<SelectParams>();
+  const [selected, setSelected] = useState<Selected>();
+  const [timeRange, setTimeRange] = useState("0d");
+  const [dataRange, setDataRange] = useState("");
+  const [data, setData] = useState<TrendData>();
+  const [datafilter, setDataFilter] = useState<DataItem[]>();
+
+  useEffect(() => {
+    getselects().then((res) => {
+      setSelectParams(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    const dayLength = parseInt(timeRange);
+    if (data) {
+      setDataFilter(data?.数据.slice(dayLength));
+    }
+  }, [timeRange, data]);
+
+  const handleDataChange = ({
+    dateStates,
+    checkStates,
+  }: {
+    dateStates: DateState;
+    checkStates: CheckState;
+  }) => {
+    const newDateStates = convertDateStateWithoutOpen(dateStates);
+
+    if (
+      JSON.stringify(newDateStates) !== JSON.stringify(selected?.dateStates) ||
+      JSON.stringify(checkStates) !== JSON.stringify(selected?.checkStates)
+    ) {
+      const res = {
+        dateStates: newDateStates,
+        checkStates: checkStates,
+      };
+      setSelected(res);
+    }
   };
+
+  useEffect(() => {
+    if (selected) {
+      getunderwritingTrend(selected).then((res) => {
+        setData(res);
+        setDataRange(res.列名[0]);
+        setTimeRange("0d");
+      });
+    }
+  }, [selected]);
+
+  if (!selectParams) {
+    return;
+  }
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <div>
-        <Select_ selectParams={selectParams} onDataChange={onDataChange} />
+        <Select_ selectParams={selectParams} onDataChange={handleDataChange} />
       </div>
-      <div className="flex flex-1 mt-5">
-        {/* <div className="relative flex-3 h-125 border-2 rounded-2xl mr-2">
-          <div className="absolute h-125 z-10 top-4 right-4 flex gap-5">
-              <Select value={timeRange} onValueChange={setTimeRange}>
-                <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex">
-                  <SelectValue placeholder="过去90天" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl">
-                  <SelectItem value="90d" className="rounded-lg">
-                    过去90天
-                  </SelectItem>
-                  <SelectItem value="30d" className="rounded-lg">
-                    过去30天
-                  </SelectItem>
-                  <SelectItem value="7d" className="rounded-lg">
-                    过去7天
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-          </div>
-
-          <div className="absolute h-125 z-10 top-4 left-4 flex gap-5">
-              <Select value={timeRange} onValueChange={setTimeRange}>
-                <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex">
-                  <SelectValue placeholder="过去90天" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl">
-                  <SelectItem value="90d" className="rounded-lg">
-                    过去90天
-                  </SelectItem>
-                  <SelectItem value="30d" className="rounded-lg">
-                    过去30天
-                  </SelectItem>
-                  <SelectItem value="7d" className="rounded-lg">
-                    过去7天
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-          </div>
-          <EChartAreaInteractive
-            chartAreaInteractiveParams={chartAreaInteractiveParams}
-          />
-        </div> */}
-
-        <Card className="flex-3 h-125 border-2 rounded-2xl mr-2">
+      <div className="flex flex-1 mt-5 h-full">
+        <Card className="flex flex-3 h-full border-2 rounded-2xl mr-2">
           <CardHeader>
             <CardTitle>趋势图</CardTitle>
             <CardDescription>趋势图</CardDescription>
-            <CardAction>
-              <Select value={timeRange} onValueChange={setTimeRange}>
-                <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex">
-                  <SelectValue placeholder="过去90天" />
+            <CardAction className="flex gap-5">
+              <Select value={dataRange} onValueChange={setDataRange}>
+                <SelectTrigger className="rounded-lg flex w-40">
+                  <SelectValue placeholder={data?.列名[0]} />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl">
-                  <SelectItem value="90d" className="rounded-lg">
+                  {data?.列名.map((item) => {
+                    return (
+                      <SelectItem
+                        key={item}
+                        value={item}
+                        className="rounded-lg"
+                      >
+                        {item}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <Select value={timeRange} onValueChange={setTimeRange}>
+                <SelectTrigger className="rounded-lg flex w-40">
+                  <SelectValue placeholder="过去所有天数" />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl">
+                  <SelectItem value="0d" className="rounded-lg">
+                    过去所有天数
+                  </SelectItem>
+                  <SelectItem value="-180d" className="rounded-lg">
+                    过去180天
+                  </SelectItem>
+                  <SelectItem value="-90d" className="rounded-lg">
                     过去90天
                   </SelectItem>
-                  <SelectItem value="30d" className="rounded-lg">
+                  <SelectItem value="-30d" className="rounded-lg">
                     过去30天
-                  </SelectItem>
-                  <SelectItem value="7d" className="rounded-lg">
-                    过去7天
                   </SelectItem>
                 </SelectContent>
               </Select>
             </CardAction>
           </CardHeader>
-          <CardContent className="h-120">
-            <EChartAreaInteractive
-              chartAreaInteractiveParams={chartAreaInteractiveParams}
-            />
+          <CardContent className="h-full">
+            {datafilter ? (
+              <TrendChart data={datafilter} col={dataRange} />
+            ) : (
+              <></>
+            )}
           </CardContent>
         </Card>
-        <div className="flex-1 h-125 border-2 rounded-2xl ml-2 overflow-hidden grid grid-cols-2 grid-rows-2">
+        <div className="flex-1 border-2 rounded-2xl ml-2 overflow-hidden grid grid-cols-2 grid-rows-2">
           <div key="1" className="flex items-center justify-center border">
             过去该指标一共上升了30天，下降了30天，持平了30天
           </div>
