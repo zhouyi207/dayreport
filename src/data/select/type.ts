@@ -12,10 +12,21 @@ interface DateState {
   };
 }
 
+type DateStateWithoutOpen = {
+  [K in keyof DateState]: {
+    [O in keyof DateState[K]]: Omit<DateState[K][O], "open">;
+  };
+};
+
 interface CheckState {
   [key: string]: {
     [option: string]: boolean;
   };
 }
 
-export type { SelectParams, DateState, CheckState };
+interface Selected {
+  dateStates: DateStateWithoutOpen;
+  checkStates: CheckState;
+}
+
+export type { SelectParams, DateState, CheckState, DateStateWithoutOpen, Selected };
