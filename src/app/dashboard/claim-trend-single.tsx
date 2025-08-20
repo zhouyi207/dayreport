@@ -26,10 +26,10 @@ import type {
   DateStateWithoutOpen,
 } from "@/data/select";
 import {
-  getunderwritingTrend,
+  getclaimTrendSingle,
   type TrendData,
   type DataItem,
-} from "@/api/underwritingTrend";
+} from "@/api/ClaimTrendSingle";
 
 function convertDateStateWithoutOpen(
   dateState: DateState
@@ -97,7 +97,7 @@ export function TrendChart({ data, col }: { data: DataItem[]; col: string }) {
   );
 }
 
-export default function UnderwritingTrendChart() {
+export default function ClaimTrendSingleChart() {
   const [selectParams, setSelectParams] = useState<SelectParams>();
   const [selected, setSelected] = useState<Selected>();
   const [timeRange, setTimeRange] = useState("-30d");
@@ -141,7 +141,7 @@ export default function UnderwritingTrendChart() {
 
   useEffect(() => {
     if (selected) {
-      getunderwritingTrend(selected).then((res) => {
+      getclaimTrendSingle(selected).then((res) => {
         setData(res);
         setDataRange(res.列名[0]);
         setTimeRange("-30d");
@@ -187,17 +187,17 @@ export default function UnderwritingTrendChart() {
                   <SelectValue placeholder="过去30天" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl">
-                  <SelectItem value="0d" className="rounded-lg">
-                    过去所有天数
-                  </SelectItem>
-                  <SelectItem value="-180d" className="rounded-lg">
-                    过去180天
+                  <SelectItem value="-30d" className="rounded-lg">
+                    过去30天
                   </SelectItem>
                   <SelectItem value="-90d" className="rounded-lg">
                     过去90天
                   </SelectItem>
-                  <SelectItem value="-30d" className="rounded-lg">
-                    过去30天
+                  <SelectItem value="-180d" className="rounded-lg">
+                    过去180天
+                  </SelectItem>
+                  <SelectItem value="0d" className="rounded-lg">
+                    过去所有天数
                   </SelectItem>
                 </SelectContent>
               </Select>

@@ -26,10 +26,10 @@ import type {
   DateStateWithoutOpen,
 } from "@/data/select";
 import {
-  getunderwritingTrend,
+  getclaimTrendTotal,
   type TrendData,
   type DataItem,
-} from "@/api/underwritingTrend";
+} from "@/api/claimTrendTotal";
 
 function convertDateStateWithoutOpen(
   dateState: DateState
@@ -97,7 +97,7 @@ export function TrendChart({ data, col }: { data: DataItem[]; col: string }) {
   );
 }
 
-export default function UnderwritingTrendChart() {
+export default function ClaimTrendTotalChart() {
   const [selectParams, setSelectParams] = useState<SelectParams>();
   const [selected, setSelected] = useState<Selected>();
   const [timeRange, setTimeRange] = useState("-30d");
@@ -141,7 +141,7 @@ export default function UnderwritingTrendChart() {
 
   useEffect(() => {
     if (selected) {
-      getunderwritingTrend(selected).then((res) => {
+      getclaimTrendTotal(selected).then((res) => {
         setData(res);
         setDataRange(res.列名[0]);
         setTimeRange("-30d");
