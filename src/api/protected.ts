@@ -20,3 +20,8 @@ export async function getselects(): Promise<SelectParams> {
   const res = await http.get("/api/protected/select");
   return res.data;
 }
+
+export async function getselects2(): Promise<SelectParams> {
+  const res = await http.get("/api/protected/select2");
+  return res.data;
+}
