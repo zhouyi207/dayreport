@@ -36,16 +36,13 @@ function convertDateStateWithoutOpen(
 ): DateStateWithoutOpen {
   const result: DateStateWithoutOpen = {};
 
-  for (const date in dateState) {
-    const options = dateState[date];
-    result[date] = {};
-
-    for (const option in options) {
-      const { selected } = options[option];
-      result[date][option] = { selected };
-    }
+  for (const title in dateState) {
+    const options = dateState[title];
+    result[title] = {
+      起始日期: { selected: options["起始日期"].selected },
+      结束日期: { selected: options["结束日期"].selected },
+    };
   }
-
   return result;
 }
 
