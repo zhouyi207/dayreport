@@ -73,7 +73,7 @@ export function StackBarChart({ data }: { data: MarginalPorfit[] }) {
 
 export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
   return (
-    <Table className="border-collapse [&_th]:border-0 [&_td]:border-0 [&_tr]:border-0">
+    <Table className="h-full">
       <TableHeader>
         {/* 第一行表头 */}
         <TableRow className="bg-gray-50">
@@ -104,55 +104,47 @@ export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
         </TableRow>
         {/* 第二行表头 */}
         <TableRow className="bg-gray-50">
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
-            分组序号
-          </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">分组序号</TableHead>
+          <TableHead className="text-center text-gray-500">
             标费预期赔付率分组
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
-            签单保费
-          </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">签单保费</TableHead>
+          <TableHead className="text-center text-gray-500">
             签单保费占比
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             平均定价系数
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             签单预期赔付率
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             边际贡献额
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
-            签单保费
-          </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">签单保费</TableHead>
+          <TableHead className="text-center text-gray-500">
             签单保费占比
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             平均定价系数
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             签单预期赔付率
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             边际贡献额
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
-            签单保费
-          </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">签单保费</TableHead>
+          <TableHead className="text-center text-gray-500">
             签单保费占比
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             平均定价系数
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             签单预期赔付率
           </TableHead>
-          <TableHead className="text-center text- font-medium text-gray-500 uppercase tracking-wider">
+          <TableHead className="text-center text-gray-500">
             边际贡献额
           </TableHead>
         </TableRow>
@@ -163,9 +155,9 @@ export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
             key={index}
             className={`bg-${
               index % 2 === 0 ? "gray-50" : "white"
-            } hover:bg-gray-100 transition-colors h-full`}
+            } hover:bg-gray-100`}
           >
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["分组序号"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-500">
@@ -177,13 +169,13 @@ export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
             <TableCell className="text-center text-sm text-gray-900">
               {item["本年签单保费占比"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本年平均定价系数"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本年签单预期赔付率"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本年边际贡献额"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-500">
@@ -192,13 +184,13 @@ export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
             <TableCell className="text-center text-sm text-gray-900">
               {item["本月签单保费占比"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本月平均定价系数"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本月签单预期赔付率"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["本月边际贡献额"]}
             </TableCell>
             <TableCell className="text-center text-sm text-gray-500">
@@ -207,13 +199,13 @@ export function MarginalProfitTable({ data }: { data: MarginalPorfit[] }) {
             <TableCell className="text-center text-sm text-gray-900">
               {item["昨日签单保费占比"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["昨日平均定价系数"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["昨日签单预期赔付率"]}
             </TableCell>
-            <TableCell className="text-center text-sm font-medium text-gray-900">
+            <TableCell className="text-center text-sm text-gray-900">
               {item["昨日边际贡献额"]}
             </TableCell>
           </TableRow>
@@ -248,12 +240,12 @@ export default function MarginalProfit() {
         <StackBarChart data={data[selectedTab1][selectedTab2]} />
       </div>
 
-      <div defaultValue="整体" className="flex flex-col gap-0">
+      <div defaultValue="整体" className="flex flex-1 flex-col gap-0">
         <div className="flex justify-between w-full mt-3 mb-3">
           <div className="flex">
             <div className="text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] bg-green-200">
               <div
-                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                className={`w-40 rounded-md text-sm px-2 py-1 cursor-default items-center justify-center text-center ${
                   selectedTab1 === "v1" ? "bg-white" : ""
                 }`}
                 onClick={() => setSelectedTab1("v1")}
@@ -261,7 +253,7 @@ export default function MarginalProfit() {
                 v1
               </div>
               <div
-                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                className={`w-40 rounded-md text-sm px-2 py-1 cursor-default items-center justify-center text-center ${
                   selectedTab1 === "v2" ? "bg-white" : ""
                 }`}
                 onClick={() => setSelectedTab1("v2")}
@@ -274,7 +266,7 @@ export default function MarginalProfit() {
           <div className="flex">
             <div className="text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] bg-green-200">
               <div
-                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                className={`w-40 rounded-md text-sm px-2 py-1 cursor-default items-center justify-center text-center ${
                   selectedTab2 === "整体" ? "bg-white" : ""
                 }`}
                 onClick={() => setSelectedTab2("整体")}
@@ -282,7 +274,7 @@ export default function MarginalProfit() {
                 整体
               </div>
               <div
-                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                className={`w-40 rounded-md text-sm px-2 py-1 cursor-default items-center justify-center text-center ${
                   selectedTab2 === "新车" ? "bg-white" : ""
                 }`}
                 onClick={() => setSelectedTab2("新车")}
@@ -290,7 +282,7 @@ export default function MarginalProfit() {
                 新车
               </div>
               <div
-                className={`w-40 rounded-md text-sm font-medium px-2 py-1 cursor-default items-center justify-center text-center ${
+                className={`w-40 rounded-md text-sm px-2 py-1 cursor-default items-center justify-center text-center ${
                   selectedTab2 === "旧车" ? "bg-white" : ""
                 }`}
                 onClick={() => setSelectedTab2("旧车")}
