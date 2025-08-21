@@ -188,7 +188,7 @@ const Threads = ({
       container.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    function update(t:any) {
+    function update(t: any) {
       if (enableMouseInteraction) {
         const smoothing = 0.05;
         currentMouse[0] += smoothing * (targetMouse[0] - currentMouse[0]);
