@@ -7,7 +7,7 @@ import type {
 } from "@/data/select";
 import ReactECharts from "echarts-for-react";
 import SelectMonth from "@/components/custom-ui/select-month";
-import { getselects2 } from "@/api/protected";
+import { getselects } from "@/api/protected";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -244,7 +244,7 @@ export default function Decile() {
   const [data, setData] = useState<DecileData>();
 
   useEffect(() => {
-    getselects2().then((res) => {
+    getselects().then((res) => {
       setSelectParams(res);
     });
   }, []);

@@ -300,10 +300,7 @@ export default function UnderwritingBubbleChart() {
   return (
     <div className="h-full flex flex-col">
       <div className="flex flex-col">
-        <SelectMonth
-          selectParams={selectParams}
-          onDataChange={handleDataChange}
-        />
+        <SelectMonth selectParams={selectParams} onDataChange={handleDataChange} />
       </div>
       <div className="flex mt-3 flex-1">
         <div className="flex-1/3 border-2 rounded-2xl mr-2">

@@ -18,7 +18,7 @@ import { useState } from "react";
 import type { SelectParams, Selected } from "@/data/select";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
-import { getselects } from "@/api/protected";
+import { getselects2 } from "@/api/protected";
 import { useEffect } from "react";
 import type {
   DateState,
@@ -106,7 +106,7 @@ export default function UnderwritingTrendChart() {
   const [datafilter, setDataFilter] = useState<DataItem[]>();
 
   useEffect(() => {
-    getselects().then((res) => {
+    getselects2().then((res) => {
       setSelectParams(res);
     });
   }, []);
