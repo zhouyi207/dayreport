@@ -6,7 +6,7 @@ import type {
   SelectParams,
 } from "@/data/select";
 import ReactECharts from "echarts-for-react";
-import { Select } from "@/components/custom-ui/select";
+import SelectMonth from "@/components/custom-ui/select-month";
 import { getselects2 } from "@/api/protected";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -285,7 +285,10 @@ export default function Decile() {
   return (
     <div className="h-full flex flex-col">
       <div className="flex flex-col">
-        <Select selectParams={selectParams} onDataChange={handleDataChange} />
+        <SelectMonth
+          selectParams={selectParams}
+          onDataChange={handleDataChange}
+        />
       </div>
       <Tabs defaultValue="account" className="flex flex-1 h-full gap-0">
         <div className="flex justify-between w-full mt-3 mb-3">

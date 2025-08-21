@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Select } from "@/components/custom-ui/select";
+import SelectMonth from "@/components/custom-ui/select-month";
 import { useEffect, useState } from "react";
 import { getselects } from "@/api/protected";
 import type {
@@ -300,7 +300,10 @@ export default function UnderwritingBubbleChart() {
   return (
     <div className="h-full flex flex-col">
       <div className="flex flex-col">
-        <Select selectParams={selectParams} onDataChange={handleDataChange} />
+        <SelectMonth
+          selectParams={selectParams}
+          onDataChange={handleDataChange}
+        />
       </div>
       <div className="flex mt-3 flex-1">
         <div className="flex-1/3 border-2 rounded-2xl mr-2">

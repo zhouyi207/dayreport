@@ -1,20 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDownIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import type { SelectParams, DateState, CheckState } from "@/data/select";
 
-export function Select({
+import type {
+  SelectParams,
+  DateStateWithoutOpen,
+  CheckState,
+} from "@/data/select";
+
+export default function SelectMonth({
   selectParams,
   onDataChange,
 }: {
@@ -22,13 +25,13 @@ export function Select({
   onDataChange: (data: any) => void;
 }) {
   function generateInitStates(selectParams: SelectParams) {
-    const dateStates: DateState = {};
+    const dateStates: DateStateWithoutOpen = {};
     const checkStates: CheckState = {};
 
     selectParams.date?.forEach((item) => {
       dateStates[item.title] = {};
       item.options.forEach((subitem) => {
-        dateStates[item.title][subitem] = { open: false, selected: undefined };
+        dateStates[item.title][subitem] = { selected: undefined };
       });
     });
     selectParams.check?.forEach((item) => {
@@ -43,29 +46,12 @@ export function Select({
 
   const initStates = generateInitStates(selectParams);
 
-  const [dateStates, setDateStates] = React.useState<DateState>(
+  const [dateStates, setDateStates] = React.useState<DateStateWithoutOpen>(
     initStates.dateStates
   );
   const [checkStates, setCheckboxStates] = React.useState<CheckState>(
     initStates.checkStates
   );
-
-  const handleDateOpenChange = (
-    title: string,
-    option: string,
-    open: boolean
-  ) => {
-    setDateStates((prev) => ({
-      ...prev,
-      [title]: {
-        ...prev[title],
-        [option]: {
-          ...prev[title][option],
-          open: open,
-        },
-      },
-    }));
-  };
 
   const handleDateSelect = (
     title: string,
@@ -79,11 +65,12 @@ export function Select({
         [option]: {
           ...prev[title][option],
           selected: date,
-          open: false,
         },
       },
     }));
   };
+
+  // handleDateSelect(item.title, subitem, date);
 
   const handleCheckboxChange = (
     groupTitle: string,
@@ -105,71 +92,38 @@ export function Select({
 
   return (
     <div className="rounded-xl border bg-background shadow-sm divide-y">
-      {/* 日期选择组 */}
       {selectParams.date?.map((item, idx) => (
         <div key={idx} className="flex gap-6 p-5 items-center">
-          {/* 标题栏 */}
           <div className="w-24 text-sm font-semibold text-muted-foreground pt-1">
             {item.title}
           </div>
-          {/* 内容栏 */}
           <div className="flex flex-wrap gap-x-6 gap-y-4 flex-1">
             {item.options.map((subitem, subidx) => (
               <div className="flex items-center gap-2" key={subidx}>
                 <Label htmlFor={`date-${idx}-${subidx}`} className="text-sm">
                   {subitem}
                 </Label>
-                <Popover
-                  open={dateStates[item.title][subitem]?.open ?? false}
-                  onOpenChange={(open) =>
-                    handleDateOpenChange(item.title, subitem, open)
-                  }
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      id={`date-${idx}-${subidx}`}
-                      className="w-40 justify-between font-normal text-sm"
-                    >
-                      {dateStates[item.title][subitem]?.selected
-                        ? dateStates[item.title][
-                            subitem
-                          ]?.selected?.toLocaleDateString()
-                        : "选择日期"}
-                      <ChevronDownIcon className="ml-2 size-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-auto overflow-hidden p-0"
-                    align="start"
-                  >
-                    <Calendar
-                      mode="single"
-                      selected={
-                        dateStates[item.title][subitem]?.selected ?? undefined
-                      }
-                      captionLayout="dropdown"
-                      onSelect={(date) => {
-                        handleDateSelect(item.title, subitem, date);
-                        handleDateOpenChange(item.title, subitem, false);
-                      }}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Theme" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">Light</SelectItem>
+                    <SelectItem value="dark">Dark</SelectItem>
+                    <SelectItem value="system">System</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             ))}
           </div>
         </div>
       ))}
 
-      {/* Checkbox 选择组 */}
       {selectParams.check.map((item, idx) => (
         <div key={idx} className="flex gap-6 p-5 items-center">
-          {/* 标题栏 */}
           <div className="w-24 text-sm font-semibold text-muted-foreground pt-1">
             {item.title}
           </div>
-          {/* 内容栏 */}
           <div className="flex flex-wrap gap-x-12 flex-1">
             {item.options.map((subitem, subidx) => (
               <div className="flex items-center gap-2" key={subidx}>

@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Select as Select_ } from "@/components/custom-ui/select";
+import SelectMonth from "@/components/custom-ui/select-month";
 import { useState } from "react";
 import type { SelectParams, Selected } from "@/data/select";
 import ReactECharts from "echarts-for-react";
@@ -156,7 +156,10 @@ export default function ClaimTrendTotalChart() {
   return (
     <div className="flex flex-col h-full">
       <div>
-        <Select_ selectParams={selectParams} onDataChange={handleDataChange} />
+        <SelectMonth
+          selectParams={selectParams}
+          onDataChange={handleDataChange}
+        />
       </div>
       <div className="flex flex-1 mt-3 h-full">
         <Card className="flex flex-3 h-full border-2 rounded-2xl mr-2">
