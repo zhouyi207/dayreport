@@ -14,6 +14,9 @@ import ClaimBubbleChart from "./app/dashboard/claim-bubble-chart.tsx";
 import Test from "./app/test.tsx";
 import RoleManage from "./app/superUser/RoleManage.tsx";
 import UserManage from "./app/superUser/UserManage.tsx";
+import ClaimTrendTotal from "./app/dashboard/claim-trend-total.tsx";
+import ClaimTrendSingle from "./app/dashboard/claim-trend-single.tsx";
+import Trace from "./app/dashboard/trace.tsx";
 
 // Auth
 import Auth from "./app/auth/auth.tsx";
@@ -84,6 +87,21 @@ const router = createBrowserRouter([
         path: "claim-bubble-chart",
         Component: ClaimBubbleChart,
         handle: { breadcrumb: "理赔气泡图" },
+      },
+      {
+        path: "claim-trend-total",
+        Component: ClaimTrendTotal,
+        handle: { breadcrumb: "理赔整车统计趋势" },
+      },
+      {
+        path: "claim-trend-single",
+        Component: ClaimTrendSingle,
+        handle: { breadcrumb: "理赔非整车统计趋势" },
+      },
+      {
+        path: "trace",
+        Component: Trace,
+        handle: { breadcrumb: "赔款追踪" },
       },
       {
         path: "usermanage",
