@@ -29,10 +29,15 @@ export default function SelectMonth({
     const checkStates: CheckState = {};
 
     selectParams.date?.forEach((item) => {
-      dateStates[item.title] = {};
-      item.options.forEach((subitem) => {
-        dateStates[item.title][subitem] = { selected: undefined };
-      });
+      dateStates[item.title] = {
+        起始日期: {
+          selected: item.options["起始日期"][0],
+        },
+        结束日期: {
+          selected:
+            item.options["结束日期"][item.options["结束日期"].length - 1],
+        },
+      };
     });
     selectParams.check?.forEach((item) => {
       checkStates[item.title] = {};
@@ -53,24 +58,57 @@ export default function SelectMonth({
     initStates.checkStates
   );
 
-  const handleDateSelect = (
-    title: string,
-    option: string,
-    date: Date | undefined
-  ) => {
-    setDateStates((prev) => ({
-      ...prev,
-      [title]: {
-        ...prev[title],
-        [option]: {
-          ...prev[title][option],
-          selected: date,
-        },
-      },
-    }));
-  };
+  const handleDateSelect = (title: string, option: string, date: string) => {
+    setDateStates((prevDateStates) => {
+      let updatedDateStates = { ...prevDateStates };
 
-  // handleDateSelect(item.title, subitem, date);
+      if (option === "起始日期") {
+        updatedDateStates[title] = {
+          ...updatedDateStates[title],
+          起始日期: {
+            ...updatedDateStates[title]["起始日期"],
+            selected: date,
+          },
+        };
+
+        if (
+          updatedDateStates[title]["起始日期"].selected >=
+          updatedDateStates[title]["结束日期"].selected
+        ) {
+          updatedDateStates[title] = {
+            ...updatedDateStates[title],
+            结束日期: {
+              ...updatedDateStates[title]["结束日期"],
+              selected: date,
+            },
+          };
+        }
+      } else {
+        updatedDateStates[title] = {
+          ...updatedDateStates[title],
+          结束日期: {
+            ...updatedDateStates[title]["结束日期"],
+            selected: date,
+          },
+        };
+
+        if (
+          updatedDateStates[title]["起始日期"].selected >=
+          updatedDateStates[title]["结束日期"].selected
+        ) {
+          updatedDateStates[title] = {
+            ...updatedDateStates[title],
+            起始日期: {
+              ...updatedDateStates[title]["起始日期"],
+              selected: date,
+            },
+          };
+        }
+      }
+
+      return updatedDateStates;
+    });
+  };
 
   const handleCheckboxChange = (
     groupTitle: string,
@@ -98,23 +136,66 @@ export default function SelectMonth({
             {item.title}
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-4 flex-1">
-            {item.options.map((subitem, subidx) => (
-              <div className="flex items-center gap-2" key={subidx}>
-                <Label htmlFor={`date-${idx}-${subidx}`} className="text-sm">
-                  {subitem}
-                </Label>
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            ))}
+            <div className="flex items-center gap-2" key="起始日期">
+              <Label htmlFor={`date-${idx}-"起始日期"`} className="text-sm">
+                起始日期
+              </Label>
+              <Select
+                value={dateStates[item.title]["起始日期"].selected}
+                onValueChange={(e: string) =>
+                  handleDateSelect(item.title, "起始日期", e)
+                }
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="选择月份" />
+                </SelectTrigger>
+                <SelectContent className="h-100">
+                  {item.options["起始日期"]
+                    .slice()
+                    .reverse()
+                    .map((subsubitem, index) => {
+                      return (
+                        <SelectItem
+                          value={subsubitem}
+                          key={`${subsubitem}-${index}`}
+                        >
+                          {subsubitem}
+                        </SelectItem>
+                      );
+                    })}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2" key="结束日期">
+              <Label htmlFor={`date-${idx}-"结束日期"`} className="text-sm">
+                结束日期
+              </Label>
+              <Select
+                value={dateStates[item.title]["结束日期"].selected}
+                onValueChange={(e: string) =>
+                  handleDateSelect(item.title, "结束日期", e)
+                }
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="选择月份" />
+                </SelectTrigger>
+                <SelectContent className="h-100">
+                  {item.options["结束日期"]
+                    .slice()
+                    .reverse()
+                    .map((subsubitem, index) => {
+                      return (
+                        <SelectItem
+                          value={subsubitem}
+                          key={`${subsubitem}-${index}`}
+                        >
+                          {subsubitem}
+                        </SelectItem>
+                      );
+                    })}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       ))}

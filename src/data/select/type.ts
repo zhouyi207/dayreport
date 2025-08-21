@@ -1,13 +1,23 @@
 interface SelectParams {
-  date?: { title: string; options: string[] }[];
+  date?: {
+    title: string;
+    options: {
+      起始日期: string[];
+      结束日期: string[];
+    };
+  }[];
   check: { title: string; options: string[] }[];
 }
 
 interface DateState {
   [key: string]: {
-    [option: string]: {
+    起始日期: {
       open: boolean;
-      selected: Date | undefined;
+      selected: string;
+    };
+    结束日期: {
+      open: boolean;
+      selected: string;
     };
   };
 }
@@ -29,4 +39,10 @@ interface Selected {
   checkStates: CheckState;
 }
 
-export type { SelectParams, DateState, CheckState, DateStateWithoutOpen, Selected };
+export type {
+  SelectParams,
+  DateState,
+  CheckState,
+  DateStateWithoutOpen,
+  Selected,
+};
